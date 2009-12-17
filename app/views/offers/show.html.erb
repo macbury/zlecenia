@@ -1,0 +1,38 @@
+<p>
+  <b>Type:</b>
+  <%=h @offer.type_id %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%=h @offer.category_id %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @offer.title %>
+</p>
+
+<p>
+  <b>Permalink:</b>
+  <%=h @offer.permalink %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @offer.user_id %>
+</p>
+
+<p>
+  <b>Place:</b>
+  <%=h @offer.place_id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @offer.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_offer_path(@offer) %> |
+<%= link_to 'Back', offers_path %>

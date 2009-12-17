@@ -94,6 +94,23 @@ pl:
         other: "ponad {{count}} lat"
 
   activerecord:
+    models:
+      user: "Użytkownik"
+    attributes:
+      user:
+        first_name: "Imię"
+        last_name: "Nazwisko"
+        sex: "Płeć"
+        birthdate: "Data urodzenia"
+        github: "Login GitHub"
+        company: "Firma"
+        place_id: "Miasto"
+        website: "Strona WWW"
+        phone: "Numer telefonu"
+        password: "Hasło"
+        password_confirmation: "Powtórz hasło"
+        terms_of_service: "Regulamin"
+        type_id: "Typ konta"
     errors:
       template:
         header:
@@ -125,3 +142,6 @@ pl:
     array:
       sentence_connector: "i"
       skip_last_comma: true
+      words_connector: ", "
+      two_words_connector: " i "
+      last_word_connector: " oraz "

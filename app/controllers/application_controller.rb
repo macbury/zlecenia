@@ -6,13 +6,27 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   filter_parameter_logging :password, :password_confirmation
-  
   helper_method :current_user_session, :current_user, :logged_in?, :admin?, :own?
   
-  before_filter :staging_authentication
-  
-  protected
+  before_filter :staging_authentication, :seo, :user_for_authorization
 
+  protected
+	
+	def user_for_authorization
+		Authorization.current_user = self.current_user
+	end
+	
+	def permission_denied
+    flash[:error] = "Nie masz wystarczających uprawnień aby móc odwiedzić tą stronę"
+    redirect_to root_url
+  end
+	
+	def seo
+		set_meta_tags :description => 'Oferty: praca IT, zlecenia IT. Znajdź pracę IT. Oferty pracy IT.',
+	                :keywords => 'praca IT, oferty pracy IT, zlecenia IT, praca w IT, oferty pracy w IT, praca oferty z IT, oferty pracy oferty z it, it, w IT'
+		
+	end
+	
   def staging_authentication
     if ENV['RAILS_ENV'] == 'staging'
       authenticate_or_request_with_http_basic do |user_name, password|
@@ -21,23 +35,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def self.title(name, options = {})
-    before_filter(options) do |controller|
-      controller.instance_variable_set('@title', name)
-    end
-  end
-  
-  def add_breadcrumb(name, url = '')
-    @breadcrumbs ||= []
-    url = eval(url) if url =~ /_path|_url|@/
-    @breadcrumbs << [name, url]
-  end
-
-  def self.add_breadcrumb(name, url, options = {})
-    before_filter options do |controller|
-      controller.send(:add_breadcrumb, name, url)
-    end
-  end
   
   def current_user_session
     @current_user_session ||= UserSession.find
@@ -51,10 +48,6 @@ class ApplicationController < ActionController::Base
 
   def logged_in?
     !self.current_user.nil?
-  end
-  
-  def admin?
-    logged_in? && self.current_user.admin?
   end
   
   def own?(object)
@@ -81,12 +74,6 @@ class ApplicationController < ActionController::Base
         format.js { render :js => "window.location = #{login_path.inspect};" }
       end
 
-    end
-  end
-  
-  def admin_required
-    unless logged_in? && self.current_user.admin?
-      render :file => "#{RAILS_ROOT}/public/422.html", :status => 422
     end
   end
 end

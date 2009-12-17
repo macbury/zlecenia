@@ -1,4 +1,35 @@
-<% title "Edit User" %>
+<h2><%= title "Edycja informacji" %></h2>
 
-<%= render :partial => 'form' %>
+<% semantic_form_for @user, :html => { :multipart => true } do |f| %>
+<%= f.error_messages %>
+	<% if @user.facebook? %>
+		<% f.inputs do %>
+			<%= f.input :github %>
+			<%= f.input :company %>
+			<%= f.input :phone %>
+		<% end %>
+	<% elsif @user.pracownik? %>
+		<% f.inputs do %>
+			<%= f.input :first_name %>
+			<%= f.input :last_name %>
+			<%= f.input :sex, :as => :radio, :collection => [["Mężczyzna", 0], ["Kobieta", 1]] %>
+			<%= f.input :birthdate, :end_year => 18.years.ago.at_beginning_of_year.year, :start_year => 1950 %>
+			<%= f.input :website %>
+			<%= f.input :phone %>
+			<%= f.input :place_id, :collection => Place.cities.map { |place| [place.name, place.id] } %>
+			<%= f.input :github %>
+			<%= f.input :company %>
+		<% end %>
+	<% else %>
+		<% f.inputs do %>
+			<%= f.input :logo %>
+			<%= f.input :company %>
+			<%= f.input :place_id, :collection => Place.cities.map { |place| [place.name, place.id] } %>
+			<%= f.input :website %>
+			<%= f.input :phone %>
+		<% end %>
+	<% end %>
+  <p><%= f.submit "Zapisz" %></p>
+<% end %>
+
 

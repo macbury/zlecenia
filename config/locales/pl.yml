@@ -96,7 +96,14 @@ pl:
   activerecord:
     models:
       user: "Użytkownik"
+      offer: "Oferta"
     attributes:
+      offer:
+        title: "Tytuł"
+        place_id: "Lokalizacja"
+        type_id: "Kategoria"
+        description: "Opis"
+        etat: "Typ"
       user:
         first_name: "Imię"
         last_name: "Nazwisko"

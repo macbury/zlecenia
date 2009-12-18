@@ -144,5 +144,12 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 
 .wrapper {
 	margin: 20px auto;
-	width: 800px;
+	width: 810px;
 } 
+
+/* Columns */
+
+.column {
+	width: 33%;
+	float: left;
+}

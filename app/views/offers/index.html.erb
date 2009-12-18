@@ -1,32 +1,13 @@
 <h1><%= title 'Oferty' %></h1>
 
-<table>
-  <tr>
-    <th>Type</th>
-    <th>Category</th>
-    <th>Title</th>
-    <th>Permalink</th>
-    <th>User</th>
-    <th>Place</th>
-    <th>Description</th>
-  </tr>
 
 <% @offers.each do |offer| %>
-  <tr>
-    <td><%=h offer.type_id %></td>
-    <td><%=h offer.category_id %></td>
-    <td><%=h offer.title %></td>
-    <td><%=h offer.permalink %></td>
-    <td><%=h offer.user_id %></td>
-    <td><%=h offer.place_id %></td>
-    <td><%=h offer.description %></td>
-    <td><%= link_to 'Show', offer %></td>
-    <td><%= link_to 'Edit', edit_offer_path(offer) %></td>
-    <td><%= link_to 'Destroy', offer, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+  <p>
+    <%= link_to offer.title, offer %>
+  </p>
 <% end %>
-</table>
 
 <br />
-
+<% if permitted_to? :create, Offer.new %>
 <%= link_to 'New offer', new_offer_path %>
+<% end %>

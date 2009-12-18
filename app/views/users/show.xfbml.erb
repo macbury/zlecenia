@@ -1,42 +1,49 @@
 <h2><%= title @user.full_name %></h2>
 
-<h3>Informacje</h3>
+<div class="column">
+	<h3>Informacje</h3>
+	<dl>
+		<dt>Imie i Nazwisko</dt>
+		<dd><%= @user.full_name %></dd>
+		<dt>Płeć</dt>
+		<dd><%= @user.sex == 0 ? "Mężczyzna" : "Kobieta" %></dd>
+		<dt>Data urodzenia</dt>
+		<dd><%= l @user.birthdate, :format => :long %></dd>
+		<dt>Strona WWW</dt>
+		<dd><%= @user.website.nil? ? "Brak" : link_to(@user.website, @user.website, :target => "_blank") %></dd>
+		<dt>Firma</dt>
+		<dd><%= @user.company.blank? ? "Brak" : @user.company %></dd>
+		<dt>Miejsce zamieszkania</dt>
+		<dd><%= @user.place.nil? ? "Brak" : @user.place.name %></dd>
+	</dl>
+</div>
 
-<dl>
-	<dt>Imie i Nazwisko</dt>
-	<dd><%= @user.full_name %></dd>
-	<dt>Płeć</dt>
-	<dd><%= @user.sex == 0 ? "Mężczyzna" : "Kobieta" %></dd>
-	<dt>Data urodzenia</dt>
-	<dd><%= l @user.birthdate, :format => :long %></dd>
-	<dt>Strona WWW</dt>
-	<dd><%= @user.website.nil? ? "Brak" : link_to(@user.website, @user.website, :target => "_blank") %></dd>
-	<dt>Firma</dt>
-	<dd><%= @user.company.blank? ? "Brak" : @user.company %></dd>
-	<dt>Miejsce zamieszkania</dt>
-	<dd><%= @user.place.nil? ? "Brak" : @user.place.name %></dd>
-</dl>
-
-<h3>Warsztat pracy</h3>
-<dl>
-<% @grouped_tools.each do |group, tools| %>
-	<dt><%= TOOL_TYPES[group] %></dt>
-	<dd><%= tools.map(&:name).join(", ") %></dd>
-<% end %>
-</dl>
-
-<% if @user.github? %>
-<h3>Profil na <%= link_to "GitHub.com", "http://github.com/#{@user.github_user.login}" %></h3>
-<% if @user.repositories.empty? %>
-<p>Nie można pobrać informacji z github.com</p>
-<% else %>
-<ul>
-	<% for repository in @user.repositories %>
-		<li>
-			<%= link_to repository.name, repository.url, :target => "_blank" %><br />
-			<%= repository.description %>
-		</li>
+<div class="column">
+	<h3>Warsztat pracy</h3>
+	<dl>
+	<% @grouped_tools.each do |group, tools| %>
+		<dt><%= TOOL_TYPES[group] %></dt>
+		<dd><%= tools.map(&:name).join(", ") %></dd>
 	<% end %>
-</ul>
-<% end %>
-<% end %>
+	</dl>
+</div>
+
+<div class="column">
+	<% if @user.github? %>
+		<h3>Profil na <%= link_to "GitHub.com", "http://github.com/#{@user.github_user.login}" %></h3>
+		<% if @user.repositories.empty? %>
+			<p>Nie można pobrać informacji z github.com</p>
+		<% else %>
+		<ul>
+			<% for repository in @user.repositories %>
+				<li>
+					<%= link_to repository.name, repository.url, :target => "_blank" %><br />
+					<%= repository.description %>
+				</li>
+			<% end %>
+		</ul>
+		<% end %>
+	<% end %>
+</div>
+
+<div class="clear"></div>

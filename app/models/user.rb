@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
 	end
 	
 	has_many :tools, :dependent => :destroy, :order => "type_id DESC, name ASC"
+	has_many :offers, :dependent => :destroy
 	belongs_to :place
 	
 	validates_presence_of :email, :unless => :facebook?
@@ -52,6 +53,8 @@ class User < ActiveRecord::Base
 	
 	has_many :assignments, :dependent => :destroy
   has_many :roles, :through => :assignments
+	
+	after_create :create_roles
 	
 	def full_name
 		if first_name.nil? || last_name.nil?
@@ -132,7 +135,11 @@ class User < ActiveRecord::Base
 		self.github_user.repositories.reverse rescue []
 	end
 	
-	def facebook
-		
+	def create_roles
+		if pracownik?
+			assign_role('Pracownik')
+		else
+			assign_role('Pracodawca')
+		end
 	end
 end

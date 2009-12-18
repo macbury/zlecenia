@@ -55,7 +55,7 @@ class UsersController < ApplicationController
 	end
 	
 	def profile
-		user = User.find_by_facebook_uid(facebook_session.user.id+1)
+		user = User.find_by_facebook_uid(facebook_session.user.id)
 		if user.nil?
 			redirect_to need_account_path
 		else
@@ -71,6 +71,7 @@ class UsersController < ApplicationController
 			redirect_to logged_in? ? settings_path : root_path
 		end
 		@grouped_tools = @user.tools.group_by { |tool| tool.type_id }
+		#@page_keywords += ', ' + @user.tools.map(&:name).join(', ')
 		
 		respond_to do |format|
 			format.html

@@ -1,36 +1,14 @@
-<h1>New offer</h1>
+<h2><%= title "Nowa oferta" %></h2>
 
-<% form_for(@offer) do |f| %>
-  <%= f.error_messages %>
+<% semantic_form_for(@offer) do |f| %>
+	<% f.inputs do %>
+		<%= f.input :title %>
+		<%= f.input :place_id, :collection => Place.cities.map { |place| [place.name, place.id] } %>
+		<%= f.input :type_id, :as => :select, :collection => offers_collection %>
+		<%= f.input :etat, :as => :radio, :collection => [["Zlecenie", false], ["Etat", true]] %>
+		<%= f.input :description %>
+	<% end %>
 
-  <p>
-    <%= f.label :type_id %><br />
-    <%= f.text_field :type_id %>
-  </p>
-  <p>
-    <%= f.label :category_id %><br />
-    <%= f.text_field :category_id %>
-  </p>
-  <p>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.label :permalink %><br />
-    <%= f.text_field :permalink %>
-  </p>
-  <p>
-    <%= f.label :user_id %><br />
-    <%= f.text_field :user_id %>
-  </p>
-  <p>
-    <%= f.label :place_id %><br />
-    <%= f.text_field :place_id %>
-  </p>
-  <p>
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </p>
   <p>
     <%= f.submit 'Create' %>
   </p>

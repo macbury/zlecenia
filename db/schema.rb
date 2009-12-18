@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091218163226) do
+ActiveRecord::Schema.define(:version => 20091218224359) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(:version => 20091218163226) do
 
   create_table "offers", :force => true do |t|
     t.integer  "type_id"
-    t.integer  "category_id"
     t.string   "title"
     t.string   "permalink"
     t.integer  "user_id"
@@ -28,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20091218163226) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "etat",        :default => false
   end
 
   create_table "places", :force => true do |t|

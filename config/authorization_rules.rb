@@ -1,5 +1,6 @@
 authorization do
   role :admin do
+	includes :guest
     has_permission_on [:users, :offers, :tools], :to => :all
     has_permission_on :authorization_rules, :to => :read
   end
@@ -17,6 +18,18 @@ authorization do
       if_attribute :user_id => is { user.id }
     end
   end
+
+	role :pracodawca do
+		includes :guest
+		has_permission_on :offers, :to => [:create, :new]
+		has_permission_on :offers, :to => [:create, :new, :edit, :update, :destroy, :delete] do
+			if_attribute :user_id => is { user.id }
+		end
+	end
+	
+	role :pracownik do
+		includes :guest
+	end
 end
 
 privileges do

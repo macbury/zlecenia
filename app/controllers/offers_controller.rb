@@ -1,4 +1,9 @@
 class OffersController < ApplicationController
+	before_filter :login_required, :except => [:index, :show]
+	
+	filter_access_to [:new, :create]
+  filter_access_to [:edit, :destroy, :update], :attribute_check => true,
+                          :load_method => lambda { @offer = Offer.find_by_permalink!(params[:id]) }
   # GET /offers
   # GET /offers.xml
   def index
@@ -13,7 +18,7 @@ class OffersController < ApplicationController
   # GET /offers/1
   # GET /offers/1.xml
   def show
-    @offer = Offer.find(params[:id])
+    @offer = Offer.find_by_permalink!(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -25,7 +30,7 @@ class OffersController < ApplicationController
   # GET /offers/new.xml
   def new
     @offer = Offer.new
-
+		@offer.place_id = self.current_user.place_id
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @offer }
@@ -34,14 +39,13 @@ class OffersController < ApplicationController
 
   # GET /offers/1/edit
   def edit
-    @offer = Offer.find(params[:id])
   end
 
   # POST /offers
   # POST /offers.xml
   def create
-    @offer = Offer.new(params[:offer])
-
+		@offer = Offer.new(params[:offer])
+		@offer.user = self.current_user
     respond_to do |format|
       if @offer.save
         flash[:notice] = 'Offer was successfully created.'
@@ -57,8 +61,7 @@ class OffersController < ApplicationController
   # PUT /offers/1
   # PUT /offers/1.xml
   def update
-    @offer = Offer.find(params[:id])
-
+		
     respond_to do |format|
       if @offer.update_attributes(params[:offer])
         flash[:notice] = 'Offer was successfully updated.'
@@ -74,7 +77,6 @@ class OffersController < ApplicationController
   # DELETE /offers/1
   # DELETE /offers/1.xml
   def destroy
-    @offer = Offer.find(params[:id])
     @offer.destroy
 
     respond_to do |format|
@@ -82,4 +84,5 @@ class OffersController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
 end

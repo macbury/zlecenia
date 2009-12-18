@@ -1,20 +1,22 @@
 authorization do
   role :admin do
-    has_permission_on [:users, :offers], :to => :all
+    has_permission_on [:users, :offers, :tools], :to => :all
     has_permission_on :authorization_rules, :to => :read
   end
   
   role :guest do
-    has_permission_on [:offers], :to => :view
+    has_permission_on [:offers, :tools], :to => :view
     
-    has_permission_on :users, :to => [:index, :show, :new, :create]
-    has_permission_on :users, :to => :change do
+    has_permission_on [:users, :tools], :to => [:index, :show, :new, :create]
+
+    has_permission_on :users, :to => [:change, :settings] do
       if_attribute :id => is { user.id }
     end
 
+		has_permission_on :tools, :to => :change do
+      if_attribute :user_id => is { user.id }
+    end
   end
-  
-
 end
 
 privileges do

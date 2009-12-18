@@ -3,8 +3,12 @@ class User < ActiveRecord::Base
 	has_permalink :dynamic_permalink, :update => true
 	
 	has_attached_file :logo, :styles => { :original => "500x200>" }
-	#validates_attachment_size :logo, :less_than => 1.megabyte
-  #validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png', 'image/gif']
+	#validates_attachment_size :logo, :less_than => 1.megabyte, :on => :update
+  #validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png', 'image/gif'], :on => :update
+	
+	has_attached_file :avatar, :styles => { :normal => "200x150#" }
+  #validates_attachment_size :avatar, :less_than => 500.kilobytes, :on => :update
+  #validates_attachment_content_type :avatar, :content_type => ['image/jpeg', 'image/png'], :on => :update
 
 	acts_as_authentic do |c|
 		login_field :email 
@@ -13,6 +17,7 @@ class User < ActiveRecord::Base
 		validate_password_field false
 	end
 	
+	has_many :tools, :dependent => :destroy, :order => "type_id DESC, name ASC"
 	belongs_to :place
 	
 	validates_presence_of :email, :unless => :facebook?
@@ -59,7 +64,7 @@ class User < ActiveRecord::Base
 	
 	def dynamic_permalink
 		if facebook?
-			return first_name
+			return full_name
 		elsif pracownik?
 			return full_name
 		else
@@ -123,7 +128,8 @@ class User < ActiveRecord::Base
 	end
 	
 	def repositories
-		self.github_user.repositories.reverse if github?
+		return [] unless github?
+		self.github_user.repositories.reverse rescue []
 	end
 	
 	def facebook

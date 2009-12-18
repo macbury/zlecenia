@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091217224318) do
+ActiveRecord::Schema.define(:version => 20091218163226) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -63,12 +63,20 @@ ActiveRecord::Schema.define(:version => 20091217224318) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
+  create_table "tools", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.integer  "type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email"
     t.string   "crypted_password"
     t.string   "password_salt"
     t.string   "persistence_token"
-    t.integer  "login_count",                    :default => 0, :null => false
+    t.integer  "login_count",                      :default => 0, :null => false
     t.datetime "last_request_at"
     t.datetime "last_login_at"
     t.datetime "current_login_at"
@@ -78,20 +86,24 @@ ActiveRecord::Schema.define(:version => 20091217224318) do
     t.datetime "updated_at"
     t.string   "first_name"
     t.string   "last_name"
-    t.integer  "sex",                            :default => 0
+    t.integer  "sex",                              :default => 0
     t.date     "birthdate"
     t.string   "website"
     t.string   "phone"
     t.string   "company"
     t.integer  "place_id"
-    t.integer  "type_id",                        :default => 0
+    t.integer  "type_id",                          :default => 0
     t.string   "permalink"
-    t.integer  "facebook_uid",      :limit => 8
+    t.integer  "facebook_uid",        :limit => 8
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
     t.string   "github"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

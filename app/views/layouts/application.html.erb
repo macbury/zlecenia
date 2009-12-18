@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<%= display_meta_tags :site => 'Zlecenia' %>
+	<%= display_meta_tags :site => 'webpraca.net' %>
 	<meta name="viewport" content="width=900" />
 
 	<%= stylesheet_link_tag 'formtastic', 'formtastic_changes', 'ui' %>
@@ -19,7 +19,7 @@
 		<p class="text_right">
 			<% if logged_in? %>
 				Witaj <%= login_for(self.current_user) %>! 
-				<%= link_to "Edycja Profilu", edit_user_path(self.current_user) %> | 
+				<%= link_to "Edycja Profilu", settings_path %> | 
 				<%= link_to "Wyloguj", logout_path %>
 			<% else %>
 				<%= facebook_connect(:text => "Zaloguj się na Facebooku", :controller => 'user_sessions') %> | 
@@ -27,6 +27,9 @@
 				<%= link_to "Rejestracja", register_path %>
 			<% end %>
 		</p>
+		<%- flash.each do |name, msg| -%>
+			<%= content_tag :div, msg, :class => "flash_#{name}" %>
+		<%- end -%>
 		<%= yield %>
 	</div>
 </body>

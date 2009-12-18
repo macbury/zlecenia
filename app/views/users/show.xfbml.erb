@@ -2,8 +2,6 @@
 
 <h3>Informacje</h3>
 
-<%= avatar_for(@user) %>
-
 <dl>
 	<dt>Imie i Nazwisko</dt>
 	<dd><%= @user.full_name %></dd>
@@ -17,12 +15,6 @@
 	<dd><%= @user.company.blank? ? "Brak" : @user.company %></dd>
 	<dt>Miejsce zamieszkania</dt>
 	<dd><%= @user.place.nil? ? "Brak" : @user.place.name %></dd>
-	<% if @user.facebook? %>
-	<dt>Facebook</dt>
-	<dd>
-		<fb:name uid="<%= @user.facebook_uid %>" useyou="false"></fb:name>
-	</dd>
-	<% end %>
 </dl>
 
 <h3>Warsztat pracy</h3>

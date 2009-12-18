@@ -1,0 +1,29 @@
+webpraca.pl
+webjob.pl
+szukam-pracy.pl
+
+Założenia:
+Serwis w którym są zamieszczane ogłoszenia o prace dla programistów, grafikow oraz administratorów.
+
+Są dwa typy kont:
+# pracownik
+  - może szukać ogłoszeń.
+  - posiada stronę z portfolio które zawiera:
+     > dane personalne(imię, nazwisko, miejsce zamieszkania, telefon itp.
+     > narzedzia, oprogramowanie z którego korzysta.
+     > repozytoria z serwisu github
+ - może połączyć konto z FaceBookiem(pobieranie danych z konta oraz umieszczenie profilu w zakladkach na facebooku)
+
+# pracodawca
+ - wyszukiwanie pracownikow
+ - dodawanie ogłoszeń
+ - ustawianie logotypu firmy
+ - posiada funkcje płatne
+
+Oferty:
+Każdy pracownik może wykazać zainteresowanie dana oferta. Pracodawca otrzyma wtedy pełny wglądu w profil pracownika(telefon)
+
+Wyszukiwanie:
+ - według treśći
+ - miejsce zamieszkania( geocode )
+ - według wykorzystywanych narzedzi

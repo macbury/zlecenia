@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :tools
+
   map.resources :offers
   map.resources :user_sessions
   map.resources :users
@@ -6,6 +8,10 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/logowanie', :controller => 'user_sessions', :action => 'new'
   map.logout '/wyloguj', :controller => 'user_sessions', :action => 'destroy'
   map.register '/rejestruj', :controller => 'users', :action => 'new'
+	map.settings '/ustawienia', :controller => 'users', :action => 'settings'
+	map.facebook_profile '/facebook_profile', :controller => 'users', :action => 'profile'
+	map.need_account '/need_account', :controller => 'users', :action => 'need_account'
+	map.expire_facebook '/expire', :controller => 'users', :action => "expire" 
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

@@ -1,12 +1,13 @@
 <h2><%= title "Edycja informacji" %></h2>
 
+<h3>Dane podstawowe</h3>
 <% semantic_form_for @user, :html => { :multipart => true } do |f| %>
-<%= f.error_messages %>
+
 	<% if @user.facebook? %>
 		<% f.inputs do %>
 			<%= f.input :github %>
 			<%= f.input :company %>
-			<%= f.input :phone %>
+			<%= f.input :phone, :hint => "Widoczny tylko dla pracodawcy" %>
 		<% end %>
 	<% elsif @user.pracownik? %>
 		<% f.inputs do %>
@@ -14,8 +15,9 @@
 			<%= f.input :last_name %>
 			<%= f.input :sex, :as => :radio, :collection => [["Mężczyzna", 0], ["Kobieta", 1]] %>
 			<%= f.input :birthdate, :end_year => 18.years.ago.at_beginning_of_year.year, :start_year => 1950 %>
+			<%= f.input :avatar %>
 			<%= f.input :website %>
-			<%= f.input :phone %>
+			<%= f.input :phone, :hint => "Widoczny tylko dla pracodawcy" %>
 			<%= f.input :place_id, :collection => Place.cities.map { |place| [place.name, place.id] } %>
 			<%= f.input :github %>
 			<%= f.input :company %>
@@ -32,4 +34,16 @@
   <p><%= f.submit "Zapisz" %></p>
 <% end %>
 
+<% if @user.pracownik? %>
+<h3>Warsztat pracy</h3>
+<p>Podaj z jakich narzędzi korzystasz:</p>
+<ul id="tools">
+	<%= render :partial => @user.tools %>
+</ul>
 
+<% form_for @user.tools.new do |f| %>
+	<%= f.select :type_id, tools_collection %>
+	<%= f.text_field :name %>
+	<%= f.submit "Dodaj" %>
+<% end %>
+<% end %>

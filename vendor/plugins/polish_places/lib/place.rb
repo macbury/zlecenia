@@ -49,6 +49,7 @@ class Place < ActiveRecord::Base
   
   attr_readonly :name, :province_id, :gender_code
   
+	has_many :offers
   belongs_to :province
   
   default_scope :order =>"name"

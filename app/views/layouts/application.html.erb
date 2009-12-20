@@ -20,6 +20,9 @@
 		<p class="text_right">
 			<% if logged_in? %>
 				Witaj <%= login_for(self.current_user) %>! 
+				<% if self.current_user.pracodawca? %>
+					<%= link_to "Moje oferty", "#" %> | 
+				<% end %>
 				<%= link_to "Edycja Profilu", settings_path %> | 
 				<%= link_to "Wyloguj", logout_path %>
 			<% else %>
@@ -31,7 +34,18 @@
 		<%- flash.each do |name, msg| -%>
 			<%= content_tag :div, msg, :class => "flash_#{name}" %>
 		<%- end -%>
+		<div class="clear"></div>
 		<%= yield %>
+		
+		<div class="footer">
+			HTS &copy; 2010
+			<span class="right">
+				<a href="/register">Strona główna</a> | 
+				<a href="/register">Rejestracja</a> | 
+				<a href="/about">Grupy</a> | 
+				<a href="/login">Logowanie</a>
+			</span>
+		</div>
 	</div>
 </body>
 </html>

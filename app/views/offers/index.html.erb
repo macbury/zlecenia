@@ -1,13 +1,50 @@
-<h1><%= title 'Oferty' %></h1>
+<div class="content">
+	<h2><%= title 'Oferty' %></h2>
 
+	<p>
+		<% OFFER_TYPES.each do |type| %>
+			<%= link_to type, seo_offers_path(:type => PermalinkFu.escape(type)) %>
+		<% end %>
+	</p>
 
-<% @offers.each do |offer| %>
-  <p>
-    <%= link_to offer.title, seo_offer_path(offer) %>
-  </p>
-<% end %>
-
-<br />
-<% if permitted_to? :create, Offer.new %>
-<%= link_to 'New offer', new_offer_path %>
-<% end %>
+	<ul class="offers">
+	<% @offers.each do |offer| %>
+	  <li class="<%= cycle('normal', 'alt') %>">
+			<%= offer_label(offer) %>
+	    <%= link_to offer.title, seo_offer_path(offer) %> dla <%= link_to offer.user.full_name, offer.user.website, :target => "_blank" %> / <%= offer.place.name %>
+			<abbr class="date" title="<%= offer.created_at %>">
+			<%= distance_of_time_in_words_to_now offer.created_at %> temu
+			</abbr>
+	  </li>
+	<% end %>
+	</ul>
+	<%= will_paginate @offers %>
+	<br />
+	<% if permitted_to? :create, Offer.new %>
+	<%= link_to 'New offer', new_offer_path %>
+	<% end %>
+</div>
+<div class="sidebar">
+	<% form_tag params[:type].nil? ? offers_path : seo_offers_path(:type => params[:type]), :method => :get do %>
+	<h3>Typ</h3>
+	<ul>
+		<% ETAT_LABELS.each_with_index do |label, index| %>
+		<li>
+			<%= check_box_tag "etat[]", index, !params[:etat].nil? && params[:etat].include?(index.to_s) %>
+			<%= label %>
+		</li>
+		<% end %>
+	</ul>
+	<h3>Wybrane lokalizacje</h3>
+	<ul>
+		<% for place in @places %>
+		<li>
+			<%= check_box_tag "place[]", place.id, !params[:place].nil? && params[:place].include?(place.id.to_s) %>
+			<%= place.name %> <b>(<%= place.offers_count %>)</b>
+		</li>
+		<% end %>
+	</ul>
+	
+		<%= submit_tag "Filtruj" %>
+	<% end %>
+</div>

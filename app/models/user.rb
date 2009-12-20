@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
 	validates_confirmation_of :password, :if => :require_password_facebook?
 	
 	validates_uniqueness_of :company, :if => :firma?, :on => :update
-	validates_presence_of :company, :if => :firma?, :on => :update
+	validates_presence_of :company, :website, :if => :firma?, :on => :update
 	
 	validates_presence_of :place_id, :on => :update, :unless => :facebook?
 	validates_presence_of :first_name, :last_name, :if => :osobaFizyczna?, :on => :update

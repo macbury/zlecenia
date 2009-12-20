@@ -147,6 +147,124 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 	width: 800px;
 } 
 
+/* Footer */
+
+.wrapper > .footer {
+	color: #777;
+	border-top: 1px solid #DDD;
+	padding-top: 5px;
+	margin-top: 10px;
+	clear: both;
+}
+
+.footer > .right { float: right; margin-top: 1px; }
+
+/* Content */
+
+.wrapper > .content {
+	min-height: 485px;
+	width: 590px;
+	float: left;
+}
+
+/* Sidebar */
+
+.wrapper > .sidebar {
+	float: left;
+	width: 200px;
+	padding: 0 0 0 10px;
+	min-height: 400px;
+}
+
+.sidebar h3 {
+	border-bottom: 2px solid #CCC;
+	overflow: hidden;
+	padding: 0px 0px 3px;
+	font-size: 11px;
+	margin-top: 10px;
+}
+
+.sidebar h3:first-child { margin-top: 0; }
+
+.sidebar h3 > a { float: right; margin-top: 2px; font-size: 9px; }
+
+.sidebar ul { margin: 0; list-style: none; padding: 0; }
+.sidebar ul > li:hover { background-color: #ECEEF4; }
+.sidebar ul > li:first-child { border-top: none; }
+
+.sidebar ul > li {
+	color: #333;
+	display: block;
+	height: 19px;
+	overflow: hidden;
+	padding: 0px 10px 5px 5px;
+	text-overflow: ellipsis;
+	line-height: 19px;
+	border-top: 1px solid #D6D9DE;
+}
+
+.sidebar ul > li > input { margin: 7px 0px 0 5px; }
+
+/* offer */
+
+.offers {
+	clear: both; 
+	margin: 0; 
+	padding: 0; 
+	list-style: none;
+}
+
+.offers > li { clear: both; padding: 5px; }
+.offers > .alt { background:#f6f6f6; }
+
+.offers > li > .date { 
+	font-size: 11px;
+	font-style: italic;
+	color: #7C7C7C;
+}
+
+.etykieta {
+	display: block;
+	float: left;
+	font-size: 10px;
+	margin-right: 5px;
+	margin-top: -2px;
+	text-align: center;
+	width: 70px;
+	-webkit-border-radius: 2px;
+	padding: 2px 3px;
+}
+
+.etykieta.zdalnie {
+	background: #357CCB;
+	border: 1px solid #2C6AB0;
+	color: #fff;
+}
+
+.etykieta.zlecenie {
+	background: #F8854E;
+	border: 1px solid #D27244;
+	color: #fff;
+}
+
+.etykieta.etat {
+	background: #408000;
+	border: 1px solid #366E01;
+	color: #fff;
+}
+
+.etykieta.praktyka {
+	background: #FF6;
+	border: 1px solid #E2E25C;
+	color: #31627E;
+}
+
+.etykieta.wolontariat {
+	background: #D6D6D6;
+	border: 1px solid #B1B1B1;
+	color: #31627E;
+}
+
 /* Columns */
 
 .column {

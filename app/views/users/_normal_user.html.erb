@@ -23,14 +23,17 @@
 <% end %>
 
 <h3>Avatar</h3>
-<% semantic_form_for @user, :url => user_path(@user, :format => :plain), :html => { :multipart => true, :id => "file_upload" } do |f| %>
-	<%= image_tag @user.avatar.url(:thumb), :id => 'avatar' %><br />
-	<div class="loader"></div>
-	<% f.inputs do %>
-		<%= f.input :avatar, :required => false %>
+<% if @user.facebook? %>
+	<%= avatar_for(@user) %>
+<% else %>
+	<% semantic_form_for @user, :url => user_path(@user, :format => :plain), :html => { :multipart => true, :id => "file_upload" } do |f| %>
+		<%= image_tag @user.avatar.url(:thumb), :id => 'avatar' %><br />
+		<div class="loader"></div>
+		<% f.inputs do %>
+			<%= f.input :avatar, :required => false %>
+		<% end %>
 	<% end %>
 <% end %>
-
 <h3>Warsztat pracy</h3>
 <p>Podaj z jakich narzędzi korzystasz:</p>
 <ul id="tools">

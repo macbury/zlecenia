@@ -6,8 +6,8 @@
 		<%= f.input :last_name %>
 		
 		<%= f.input :company %>
+		<%= f.input :website, :required => true %>
 		<%= f.input :place_id, :collection => Place.cities.map { |place| [place.name, place.id] } %>
-		<%= f.input :website, :required => false %>
 		<%= f.input :phone, :required => false %>
 	<% end %>
   <p><%= f.submit "Zapisz" %></p>

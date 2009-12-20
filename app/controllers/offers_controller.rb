@@ -9,10 +9,25 @@ class OffersController < ApplicationController
   # GET /offers
   # GET /offers.xml
   def index
-    @offers = Offer.paginate	:conditions => { :end_at.gte => Date.current },
-															:page => params[:page], 
+		query = Offer.search
+		query.end_at_greater_than_or_equal_to(Date.current)
+		if params[:type]
+			type = OFFER_TYPES.map{ |type| PermalinkFu.escape(type) }.index(params[:type])
+			query.type_id_equals(type)
+		end
+		
+		query.etat_equals(params[:etat]) if params[:etat]
+		query.place_id_equals(params[:place]) if params[:place]
+		
+    @offers = query.paginate	:page => params[:page], 
 															:per_page => 30,
-															:order => "created_at DESC"
+															:order => "created_at DESC",
+															:include => [:user, :place]
+		
+		@places = Place.all 			:select => "count(offers.place_id) as offers_count, places.*",
+															:joins => :offers,
+															:group => Place.column_names.map{|c| "places.#{c}"}.join(','),
+															:order => "places.name"
 
     respond_to do |format|
       format.html # index.html.erb

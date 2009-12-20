@@ -9,8 +9,7 @@
 
 	<%= stylesheet_link_tag 'markitup', 'textile', 'formtastic', 'formtastic_changes', 'ui' %>
 	<%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
-	<%= javascript_include_tag 'jquery.min.js', 'rails', 'jquery.markitup', 'textile', 'jquery.form', 'application' %>
-	
+	<%= javascript_include_tag 'jquery.min.js', 'rails', 'jquery.markitup', 'textile', 'jquery.form', 'jquery.tags', 'application' %>
 	
 	<%= fb_connect_javascript_tag %>
 	<%= init_fb_connect "XFBML", :js => :jquery %>

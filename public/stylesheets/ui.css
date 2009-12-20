@@ -144,7 +144,7 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 
 .wrapper {
 	margin: 20px auto;
-	width: 800px;
+	width: 900px;
 } 
 
 /* Footer */
@@ -162,8 +162,8 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 /* Content */
 
 .wrapper > .content {
-	min-height: 485px;
-	width: 590px;
+	min-height: 585px;
+	width: 690px;
 	float: left;
 }
 
@@ -263,6 +263,28 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 	background: #D6D6D6;
 	border: 1px solid #B1B1B1;
 	color: #31627E;
+}
+
+.tagMatches {
+	margin-left: 25%;
+	display: block;
+	padding: 2px;
+	clear: both;
+	margin-bottom: 2px;
+}
+
+.tagMatches > div {
+	float: left;
+	font-size: 10px;
+	margin-right: 5px;
+	margin-top: 3px;
+	text-align: center;
+	-webkit-border-radius: 2px;
+	padding: 2px 3px;
+	background: #D6D6D6;
+	border: 1px solid #B1B1B1;
+	color: #31627E;
+	cursor: pointer;
 }
 
 /* Columns */

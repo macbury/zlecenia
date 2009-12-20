@@ -1,12 +1,17 @@
+<h2>
+	<%= title 'Oferty' %> 
+	<% if params[:tags] && params[:tags].split(',').size == 1 %>
+	 dla tagu "<%= params[:tags] %>"
+	<% end %>
+</h2>
+
+<p>
+	<% OFFER_TYPES.each do |type| %>
+		<%= link_to type, seo_offers_path(:type => PermalinkFu.escape(type)) %>
+	<% end %>
+</p>
+
 <div class="content">
-	<h2><%= title 'Oferty' %></h2>
-
-	<p>
-		<% OFFER_TYPES.each do |type| %>
-			<%= link_to type, seo_offers_path(:type => PermalinkFu.escape(type)) %>
-		<% end %>
-	</p>
-
 	<ul class="offers">
 	<% @offers.each do |offer| %>
 	  <li class="<%= cycle('normal', 'alt') %>">
@@ -26,6 +31,7 @@
 </div>
 <div class="sidebar">
 	<% form_tag params[:type].nil? ? offers_path : seo_offers_path(:type => params[:type]), :method => :get do %>
+	<%= text_field_tag "tags", params[:tags] %>
 	<h3>Typ</h3>
 	<ul>
 		<% ETAT_LABELS.each_with_index do |label, index| %>

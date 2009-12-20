@@ -4,10 +4,12 @@ ETAT_LABELS = ["zlecenie", "etat", "wolontariat", "praktyka"]
 class Offer < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :place
+	
+	is_taggable :tags
 	xss_terminate
 	has_permalink :title
 	
-	validates_presence_of :title, :description
+	validates_presence_of :title, :description, :tag_list
 	validates_length_of :title, :within => 3..255
 	validates_length_of :description, :within => 10..5000
 	validates_inclusion_of :type_id, :in => 0..OFFER_TYPES.size-1

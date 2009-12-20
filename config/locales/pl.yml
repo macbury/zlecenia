@@ -107,6 +107,7 @@ pl:
         end_at: "Ważne do"
         dlugosc_trwania: "Długość trwania"
         zdalnie: "Praca zdalna"
+        tag_list: "Tagi"
       user:
         osoba_prywatna: "Firma / Osoba fizyczna"
         first_name: "Imię"

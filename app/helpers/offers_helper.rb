@@ -6,4 +6,5 @@ module OffersHelper
 		
 		return html
 	end
+
 end

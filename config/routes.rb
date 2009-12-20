@@ -3,8 +3,10 @@ ActionController::Routing::Routes.draw do |map|
 	map.with_options :controller => 'offers', :action => 'index' do |offer| 
 		offer.connect '/:type/:page', :requirements => { :type => /(programowanie|administrowanie|wyglad)/i, :page => /\d/ }
 		offer.seo_offers '/:type', :requirements => { :type => /(programowanie|administrowanie|wyglad)/i }
+		offer.connets '/tags/:tags/:page'
+		offer.tags '/tags/:tags'
 	end
-	map.resources :offers
+	map.resources :offers, :collection => { :suggest_tag => :any }
 	
 	map.resources :tools
   map.resources :user_sessions

@@ -35,4 +35,12 @@ $(document).ready(function () {
 	
 	// Dodawanie ofert
 	$('#offer_description').markItUp(mySettings, { previewAutoRefresh:false });
+	
+	$('#offer_tag_list').tagSuggest({
+		url: "/offers/suggest_tag",
+		tagContainer: "div",
+		tagWrap: "div",
+		separator: " ",
+		delay: 200
+	});
 });

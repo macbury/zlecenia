@@ -22,8 +22,8 @@ class ApplicationController < ActionController::Base
   end
 	
 	def seo
-		set_meta_tags :description => 'Oferty: praca IT, zlecenia IT. Znajdź pracę IT. Oferty pracy IT.',
-	                :keywords => 'praca IT, oferty pracy IT, zlecenia IT, praca w IT, oferty pracy w IT, praca oferty z IT, oferty pracy oferty z it, it, w IT'
+		set_meta_tags :description => 'Oferty pracy dla programistów, webdeveloperów, administratorów oraz grafików',
+	                :keywords => 'praca IT, oferty pracy IT, zlecenia IT, programista, webdeveloper, grafik, administrator, staż, praktyka, wolontariusz, etat, praca zdalna'
 		
 	end
 	

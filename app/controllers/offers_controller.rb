@@ -1,5 +1,5 @@
 class OffersController < ApplicationController
-	before_filter :login_required, :except => [:index, :show]
+	before_filter :login_required, :except => [:index, :show, :suggest_tag]
 
 	filter_access_to [:new, :create]
   filter_access_to [:edit, :destroy, :update], :attribute_check => true,
@@ -18,14 +18,15 @@ class OffersController < ApplicationController
 		
 		query.etat_equals(params[:etat]) if params[:etat]
 		query.place_id_equals(params[:place]) if params[:place]
+		query.tags_name_equals(params[:tags].split(' ').map(&:downcase)) if !params[:tags].nil? && params[:tags].length > 0
 		
     @offers = query.paginate	:page => params[:page], 
 															:per_page => 30,
 															:order => "created_at DESC",
-															:include => [:user, :place]
+															:include => [:user, :place, :tags]
 		
-		@places = Place.all 			:select => "count(offers.place_id) as offers_count, places.*",
-															:joins => :offers,
+		@places = query.all 			:select => "count(offers.place_id) as offers_count, places.*",
+															:joins => :place,
 															:group => Place.column_names.map{|c| "places.#{c}"}.join(','),
 															:order => "places.name"
 
@@ -34,7 +35,14 @@ class OffersController < ApplicationController
       format.xml  { render :xml => @offers }
     end
   end
-
+	
+	def suggest_tag
+		@tags = Tag.name_like(params[:tag])
+		
+		render :json => @tags.map(&:name)
+	end
+	
+	
   # GET /offers/1
   # GET /offers/1.xml
   def show

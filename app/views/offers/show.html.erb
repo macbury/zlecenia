@@ -1,7 +1,24 @@
 <h2><%= title @offer.title %></h2>
 
+<p>
+	<%= offer_label(@offer) %> dla <%= link_to @offer.user.full_name, @offer.user.website, :target => "_blank" %> / <%= @offer.place.name %>
+</p>
+
+<p>
+	Tagi: 
+	<% @offer.tags.each do |tag| %>
+		<%= link_to tag.name, tags_path(:tags => tag.name) %>
+	<% end %>
+</p>
+
+<p>
+	Dodano <abbr title="<%= @offer.created_at %>"><%= distance_of_time_in_words_to_now @offer.created_at %> temu</abbr>
+</p>
+
 <%= image_tag @offer.user.logo.url unless @offer.user.logo.original_filename.nil? %>
 <%= RedCloth.new(@offer.description).to_html %>
 
-<%= link_to 'Edit', edit_offer_path(@offer) %> |
-<%= link_to 'Back', offers_path %>
+<% if permitted_to? :edit, @offer %>
+	<%= link_to 'Edytuj', edit_offer_path(@offer) %> |
+	<%= link_to 'Wstecz', offers_path %>
+<% end %>

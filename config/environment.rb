@@ -15,6 +15,7 @@ Rails::Initializer.run do |config|
 	config.gem 'json'
 	config.gem 'mash'
 	config.gem 'RedCloth', :lib => "redcloth"
+	config.gem 'graticule'
 	config.gem 'meta-tags', :lib => 'meta_tags', :source => 'http://gemcutter.org'
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers

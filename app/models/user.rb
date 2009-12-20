@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 	xss_terminate
 	has_permalink :dynamic_permalink, :update => true
-	
+	acts_as_geocodable	:units => :kilometers
 	has_attached_file :logo, :styles => { :original => "500x200>", :thumb => "200x100>" },
 			:url  => "/logos/:style/:id.:extension",
 		  :path => ":rails_root/public/logos/:style/:id.:extension"
@@ -79,6 +79,10 @@ class User < ActiveRecord::Base
 		else
 			return company
 		end
+	end
+	
+	def locality
+		place.name rescue ""
 	end
 	
 	def before_connect(s)

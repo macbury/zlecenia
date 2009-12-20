@@ -8,6 +8,7 @@ class Offer < ActiveRecord::Base
 	is_taggable :tags
 	xss_terminate
 	has_permalink :title
+	acts_as_geocodable	:units => :kilometers
 	
 	validates_presence_of :title, :description, :tag_list
 	validates_length_of :title, :within => 3..255
@@ -23,6 +24,10 @@ class Offer < ActiveRecord::Base
 	
 	def typ
 		OFFER_TYPES[self.type_id]
+	end
+	
+	def locality
+		place.name rescue ""
 	end
 	
 	def dlugosc_trwania

@@ -32,6 +32,9 @@
 <div class="sidebar">
 	<% form_tag params[:type].nil? ? offers_path : seo_offers_path(:type => params[:type]), :method => :get do %>
 	<%= text_field_tag "tags", params[:tags] %>
+	<p>
+		<%= link_to "Subskrybuj wyszkukiwanie", offers_url(stripped_params(:format => :rss)) unless stripped_params.empty? %>
+	</p>
 	<h3>Typ</h3>
 	<ul>
 		<% ETAT_LABELS.each_with_index do |label, index| %>
@@ -42,7 +45,13 @@
 		<% end %>
 	</ul>
 	<h3>Wybrane lokalizacje</h3>
-	<ul>
+	<ul id="localizations">
+		<% if pracownik? && !self.current_user.place.nil? %>
+		<li>
+			<%= check_box_tag "nearest", self.current_user.place.name, params[:nearest] %>
+			<b>W pobliżu <%= self.current_user.place.name %></b>
+		</li>
+		<% end %>
 		<% for place in @places %>
 		<li>
 			<%= check_box_tag "place[]", place.id, !params[:place].nil? && params[:place].include?(place.id.to_s) %>

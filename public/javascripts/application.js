@@ -12,8 +12,8 @@ $(document).ready(function () {
 	// Strona profilu
 	$('#new_tool').ajaxForm({
 		dataType: "script",
-		beforeSubmit: function (formData, jqForm, options) { $(jqForm).hide(); return true },
-		success: function () { $('#new_tool').show(); },
+		beforeSubmit: function (formData, jqForm, options) { $(jqForm).hide(); $('#tool_loader').show(); return true },
+		success: function () { $('#new_tool').show(); $('#tool_loader').hide(); },
 		clearForm: true
 	});
 	
@@ -42,5 +42,19 @@ $(document).ready(function () {
 		tagWrap: "div",
 		separator: " ",
 		delay: 200
+	});
+	
+	// Strona z ofertami
+	
+	$('#nearest').click(function () {
+		if (this.checked) {
+			$('#localizations input[type="checkbox"]:not(#nearest)').attr('checked', false);
+		}
+	});
+	
+	$('#localizations input[type="checkbox"]:not(#nearest)').click(function () {
+		if (this.checked) {
+			$('#nearest').attr('checked', false);
+		}
 	});
 });

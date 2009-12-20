@@ -10,20 +10,38 @@ class OffersController < ApplicationController
   # GET /offers.xml
   def index
 		query = Offer.search
+		includes = [:user, :place]
+		
+		options = {
+								:page => params[:page], 
+								:per_page => 30,
+								:order => "created_at DESC",
+								:include => includes
+							}
+		
 		query.end_at_greater_than_or_equal_to(Date.current)
+		query.etat_equals(params[:etat]) if params[:etat]
+		query.place_id_equals(params[:place]) if params[:place]
+		
 		if params[:type]
 			type = OFFER_TYPES.map{ |type| PermalinkFu.escape(type) }.index(params[:type])
 			query.type_id_equals(type)
 		end
+
+		if !params[:tags].nil? && params[:tags].length > 0
+			includes << :tags
+			query.tags_name_equals(params[:tags].split(' ').map(&:downcase)) 
+		end
 		
-		query.etat_equals(params[:etat]) if params[:etat]
-		query.place_id_equals(params[:place]) if params[:place]
-		query.tags_name_equals(params[:tags].split(' ').map(&:downcase)) if !params[:tags].nil? && params[:tags].length > 0
+		if params[:nearest]
+			#includes << :geocoding
+			options.merge!({
+				:within => 100,
+				:origin => params[:nearest]
+			})
+		end
 		
-    @offers = query.paginate	:page => params[:page], 
-															:per_page => 30,
-															:order => "created_at DESC",
-															:include => [:user, :place, :tags]
+    @offers = query.paginate(options)
 		
 		@places = query.all 			:select => "count(offers.place_id) as offers_count, places.*",
 															:joins => :place,
@@ -33,6 +51,7 @@ class OffersController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @offers }
+			format.rss
     end
   end
 	

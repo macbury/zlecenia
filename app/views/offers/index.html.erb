@@ -3,7 +3,7 @@
 
 <% @offers.each do |offer| %>
   <p>
-    <%= link_to offer.title, offer %>
+    <%= link_to offer.title, seo_offer_path(offer) %>
   </p>
 <% end %>
 

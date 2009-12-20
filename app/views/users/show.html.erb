@@ -8,19 +8,21 @@
 		<dd><%= @user.full_name %></dd>
 		<dt>Płeć</dt>
 		<dd><%= @user.sex == 0 ? "Mężczyzna" : "Kobieta" %></dd>
+		<% if pracodawca?(@user) %>
 		<dt>Data urodzenia</dt>
 		<dd><%= l @user.birthdate, :format => :long %></dd>
 		<dt>Strona WWW</dt>
-		<dd><%= @user.website.nil? ? "Brak" : link_to(@user.website, @user.website, :target => "_blank") %></dd>
-		<dt>Firma</dt>
-		<dd><%= @user.company.blank? ? "Brak" : @user.company %></dd>
+		<dd><%= @user.website.nil? || @user.website.empty? ? "Brak" : link_to(@user.website, @user.website, :target => "_blank") %></dd>
 		<dt>Miejsce zamieszkania</dt>
 		<dd><%= @user.place.nil? ? "Brak" : @user.place.name %></dd>
-		<% if @user.facebook? %>
-		<dt>Facebook</dt>
-		<dd>
-			<fb:name uid="<%= @user.facebook_uid %>" useyou="false"></fb:name>
-		</dd>
+			<% if @user.facebook? %>
+			<dt>Facebook</dt>
+			<dd>
+				<fb:name uid="<%= @user.facebook_uid %>" useyou="false"></fb:name>
+			</dd>
+			<% end %>
+		<% else %>
+			<dt>Musisz się zalogować aby móc zobaczyć wszystkie dane!</dt>
 		<% end %>
 	</dl>
 </div>

@@ -4,7 +4,7 @@ module UsersHelper
 		if user.pracownik?
 			link_to user.full_name, user_path(user.permalink)
 		else
-			content_tag :b, user.company || user.email
+			content_tag :b, user.full_name
 		end
 	end
 	

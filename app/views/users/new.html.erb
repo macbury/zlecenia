@@ -7,6 +7,7 @@
 		<%= f.input :password_confirmation %>
 		<%= f.input :type_id, :as => :radio, :collection => [["Pracownik", 0], ["Pracodawca", 1]] %>
 		<%= f.input :terms_of_service, :as => :boolean %>
+		<%= f.input :przetwarzanie_danych, :as => :boolean %>
 	<% end %>
 	
   <p><%= f.submit "Rejestruj się!" %></p>

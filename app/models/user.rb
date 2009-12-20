@@ -2,13 +2,17 @@ class User < ActiveRecord::Base
 	xss_terminate
 	has_permalink :dynamic_permalink, :update => true
 	
-	has_attached_file :logo, :styles => { :original => "500x200>" }
-	#validates_attachment_size :logo, :less_than => 1.megabyte, :on => :update
-  #validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png', 'image/gif'], :on => :update
+	has_attached_file :logo, :styles => { :original => "500x200>", :thumb => "200x100>" },
+			:url  => "/logos/:style/:id.:extension",
+		  :path => ":rails_root/public/logos/:style/:id.:extension"
+	#validates_attachment_size :logo, :less_than => 1.megabyte
+  #validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png', 'image/gif']
 	
-	has_attached_file :avatar, :styles => { :normal => "200x150#" }
-  #validates_attachment_size :avatar, :less_than => 500.kilobytes, :on => :update
-  #validates_attachment_content_type :avatar, :content_type => ['image/jpeg', 'image/png'], :on => :update
+	has_attached_file :avatar, :styles => { :normal => "200x150#", :thumb => "200x100#" },
+			:url  => "/avatars/:style/:id.:extension",
+		  :path => ":rails_root/public/avatars/:style/:id.:extension"
+  #validates_attachment_size :avatar, :less_than => 500.kilobytes
+  #validates_attachment_content_type :avatar, :content_type => ['image/jpeg', 'image/png']
 
 	acts_as_authentic do |c|
 		login_field :email 
@@ -27,15 +31,18 @@ class User < ActiveRecord::Base
 	validates_length_of :password, :within => 3..20, :if => :require_password_facebook?
 	validates_confirmation_of :password, :if => :require_password_facebook?
 	
-	validates_presence_of :company, :if => :pracodawca?, :on => :update
+	validates_uniqueness_of :company, :if => :firma?, :on => :update
+	validates_presence_of :company, :if => :firma?, :on => :update
+	
 	validates_presence_of :place_id, :on => :update, :unless => :facebook?
-	validates_presence_of :first_name, :last_name, :if => :pracownik_not_facebook?, :on => :update
-	validates_length_of :first_name, :within => 0..255, :if => :pracownik_not_facebook?, :on => :update
-	validates_length_of :last_name, :within => 0..255, :if => :pracownik_not_facebook?, :on => :update
+	validates_presence_of :first_name, :last_name, :if => :osobaFizyczna?, :on => :update
+	validates_length_of :first_name, :within => 0..255, :if => :osobaFizyczna?, :on => :update
+	validates_length_of :last_name, :within => 0..255, :if => :osobaFizyczna?, :on => :update
 	validates_length_of :github, :within => 0..255, :if => :pracownik?, :on => :update
 	
   validates_acceptance_of :terms_of_service, :on => :create
-  
+  validates_acceptance_of :przetwarzanie_danych, :on => :create
+
 	validates_inclusion_of :sex, :in => 0..1, :on => :update
 	validates_inclusion_of :type_id, :in => 0..1
 	validates_format_of :website, :with =>         /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix, :on => :update
@@ -57,12 +64,11 @@ class User < ActiveRecord::Base
 	after_create :create_roles
 	
 	def full_name
-		if first_name.nil? || last_name.nil?
-			return "Brak"
+		if first_name.nil? || last_name.nil? || (firma? && company.nil?)
+			return email.gsub('@','(at)')
 		else
-			"#{first_name} #{last_name}"
+			firma? ? company : "#{first_name} #{last_name}"
 		end
-		
 	end
 	
 	def dynamic_permalink
@@ -104,6 +110,14 @@ class User < ActiveRecord::Base
 		pracownik? && facebook?
 	end
 	
+	def firma?
+		pracodawca? && !self.osoba_prywatna
+	end
+	
+	def osobaFizyczna?
+		(pracodawca? || (pracownik? && !facebook?)) && self.osoba_prywatna
+	end
+	
 	def pracownik?
 		(type_id == 0)
 	end
@@ -142,4 +156,5 @@ class User < ActiveRecord::Base
 			assign_role('Pracodawca')
 		end
 	end
+
 end

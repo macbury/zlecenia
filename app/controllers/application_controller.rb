@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   filter_parameter_logging :password, :password_confirmation
-  helper_method :current_user_session, :current_user, :logged_in?, :admin?, :own?
+  helper_method :current_user_session, :current_user, :logged_in?, :admin?, :own?, :pracodawca?
   
   before_filter :staging_authentication, :seo, :user_for_authorization
 
@@ -50,6 +50,10 @@ class ApplicationController < ActionController::Base
     !self.current_user.nil?
   end
   
+	def pracodawca?(user)
+		logged_in? && (self.current_user.pracodawca? || self.current_user.id == user.id)
+	end
+
   def own?(object)
     logged_in? && self.current_user.own?(object)
   end

@@ -104,20 +104,25 @@ pl:
         type_id: "Kategoria"
         description: "Opis"
         etat: "Typ"
+        end_at: "Ważne do"
+        dlugosc_trwania: "Długość trwania"
+        zdalnie: "Praca zdalna"
       user:
+        osoba_prywatna: "Firma / Osoba fizyczna"
         first_name: "Imię"
         last_name: "Nazwisko"
         sex: "Płeć"
         birthdate: "Data urodzenia"
         github: "Login GitHub"
         company: "Firma"
-        place_id: "Miasto"
+        place_id: "Lokalizacja"
         website: "Strona WWW"
         phone: "Numer telefonu"
         password: "Hasło"
         password_confirmation: "Powtórz hasło"
         terms_of_service: "Regulamin"
         type_id: "Typ konta"
+        przetwarzanie_danych: "Wyrażam zgodę na przetwarzanie moich danych osobowych zawartych w mojej ofercie pracy dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z ustawą z dn. 29.08.97 roku o Ochronie Danych Osobowych Dz. Ust Nr 133 poz. 883)"
     errors:
       template:
         header:

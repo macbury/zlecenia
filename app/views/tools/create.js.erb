@@ -1,1 +1,3 @@
+<% if @tool.valid? %>
 $('#tools').append(<%= render(:partial => @tool).inspect %>);
+<% end %>

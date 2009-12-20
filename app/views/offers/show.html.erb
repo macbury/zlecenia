@@ -1,38 +1,7 @@
-<p>
-  <b>Type:</b>
-  <%=h @offer.type_id %>
-</p>
+<h2><%= title @offer.title %></h2>
 
-<p>
-  <b>Category:</b>
-  <%=h @offer.category_id %>
-</p>
-
-<p>
-  <b>Title:</b>
-  <%=h @offer.title %>
-</p>
-
-<p>
-  <b>Permalink:</b>
-  <%=h @offer.permalink %>
-</p>
-
-<p>
-  <b>User:</b>
-  <%=h @offer.user_id %>
-</p>
-
-<p>
-  <b>Place:</b>
-  <%=h @offer.place_id %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%=h @offer.description %>
-</p>
-
+<%= image_tag @offer.user.logo.url unless @offer.user.logo.original_filename.nil? %>
+<%= RedCloth.new(@offer.description).to_html %>
 
 <%= link_to 'Edit', edit_offer_path(@offer) %> |
 <%= link_to 'Back', offers_path %>

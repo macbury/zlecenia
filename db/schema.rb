@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091218224359) do
+ActiveRecord::Schema.define(:version => 20091219203658) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -27,7 +27,9 @@ ActiveRecord::Schema.define(:version => 20091218224359) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "etat",        :default => false
+    t.date     "end_at"
+    t.integer  "etat",        :default => 0
+    t.boolean  "zdalnie",     :default => false
   end
 
   create_table "places", :force => true do |t|
@@ -76,7 +78,7 @@ ActiveRecord::Schema.define(:version => 20091218224359) do
     t.string   "crypted_password"
     t.string   "password_salt"
     t.string   "persistence_token"
-    t.integer  "login_count",                      :default => 0, :null => false
+    t.integer  "login_count",                      :default => 0,     :null => false
     t.datetime "last_request_at"
     t.datetime "last_login_at"
     t.datetime "current_login_at"
@@ -104,6 +106,7 @@ ActiveRecord::Schema.define(:version => 20091218224359) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.boolean  "osoba_prywatna",                   :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

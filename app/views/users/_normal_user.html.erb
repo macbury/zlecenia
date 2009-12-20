@@ -1,0 +1,44 @@
+<h3>Dane podstawowe</h3>
+<% semantic_form_for @user, :html => { :multipart => true } do |f| %>
+
+<% if @user.facebook? %>
+	<% f.inputs do %>
+		<%= f.input :github, :required => false %>
+		<%= f.input :company, :required => false %>
+		<%= f.input :phone, :hint => "Widoczny tylko dla pracodawcy", :required => false %>
+	<% end %>
+<% elsif @user.pracownik? %>
+	<% f.inputs do %>
+		<%= f.input :first_name %>
+		<%= f.input :last_name %>
+		<%= f.input :sex, :as => :radio, :collection => [["Mężczyzna", 0], ["Kobieta", 1]] %>
+		<%= f.input :birthdate, :end_year => 18.years.ago.at_beginning_of_year.year, :start_year => 1950 %>
+		<%= f.input :website, :required => false %>
+		<%= f.input :phone, :hint => "Widoczny tylko dla pracodawcy", :required => false %>
+		<%= f.input :place_id, :collection => Place.cities.map { |place| [place.name, place.id] } %>
+		<%= f.input :github, :required => false %>
+	<% end %>
+<% end %>
+<p><%= f.submit "Zapisz" %></p>
+<% end %>
+
+<h3>Avatar</h3>
+<% semantic_form_for @user, :url => user_path(@user, :format => :plain), :html => { :multipart => true, :id => "file_upload" } do |f| %>
+	<%= image_tag @user.avatar.url(:thumb), :id => 'avatar' %><br />
+	<div class="loader"></div>
+	<% f.inputs do %>
+		<%= f.input :avatar, :required => false %>
+	<% end %>
+<% end %>
+
+<h3>Warsztat pracy</h3>
+<p>Podaj z jakich narzędzi korzystasz:</p>
+<ul id="tools">
+	<%= render :partial => @user.tools %>
+</ul>
+
+<% form_for @user.tools.new do |f| %>
+	<%= f.select :type_id, collection_from_types(TOOL_TYPES) %>
+	<%= f.text_field :name %>
+	<%= f.submit "Dodaj" %>
+<% end %>

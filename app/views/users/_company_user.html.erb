@@ -1,0 +1,23 @@
+<h3>Dane podstawowe</h3>
+<% semantic_form_for @user do |f| %>
+	<% f.inputs do %>
+		<%= f.input :osoba_prywatna, :as => :radio, :collection => [["Firma", false], ["Osoba fizyczna", true]] %>
+		<%= f.input :first_name %>
+		<%= f.input :last_name %>
+		
+		<%= f.input :company %>
+		<%= f.input :place_id, :collection => Place.cities.map { |place| [place.name, place.id] } %>
+		<%= f.input :website, :required => false %>
+		<%= f.input :phone, :required => false %>
+	<% end %>
+  <p><%= f.submit "Zapisz" %></p>
+<% end %>
+
+<h3>Logotyp</h3>
+<% semantic_form_for @user, :url => user_path(@user, :format => :plain), :html => { :multipart => true, :id => "file_upload" } do |f| %>
+	<%= image_tag @user.logo.url(:thumb), :id => 'logo' %><br />
+	<div class="loader"></div>
+	<% f.inputs do %>
+		<%= f.input :logo %>
+	<% end %>
+<% end %>

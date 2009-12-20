@@ -32,12 +32,16 @@ class UsersController < ApplicationController
   end
   
   def update
-    if @user.update_attributes(params[:user])
-      flash[:notice] = "Successfully updated user."
-      redirect_to root_url
-    else
-      render :action => 'edit'
-    end
+		respond_to do |format|
+			if @user.update_attributes(params[:user])
+	      flash[:notice] = "Zapisano zmiany w profilu"
+	      format.html { redirect_to root_url }
+				format.plain { render :text => params[:user][:avatar].nil? ? @user.logo.url(:thumb) : @user.avatar.url(:thumb) }
+	    else
+	      format.html { render :action => 'edit' }
+				format.plain { render :text => params[:user][:avatar].nil? ? @user.logo.url(:thumb) : @user.avatar.url(:thumb) }
+	    end
+		end
   end
 	
 	def expire

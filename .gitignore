@@ -3,6 +3,7 @@ log/*.log
 tmp/**/*
 public/logos/**/*
 public/avatars/**/*
+public/*.gz
 config/database.yml
 config/facebooker.yml
 db/*.sqlite3

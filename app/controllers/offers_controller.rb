@@ -1,11 +1,11 @@
 class OffersController < ApplicationController
 	before_filter :login_required, :except => [:index, :show, :suggest_tag]
-
-	filter_access_to [:new, :create]
+	before_filter :wymagany_pracodawca, :except => [:index, :show, :suggest_tag]
+	
+	filter_access_to [:new, :create, :my]
   filter_access_to [:edit, :destroy, :update], :attribute_check => true,
                           :load_method => lambda { @offer = Offer.find_by_permalink!(params[:id]) }
 	
-	before_filter :need_enter_company_information, :except => [:index, :show]
   # GET /offers
   # GET /offers.xml
   def index
@@ -30,7 +30,7 @@ class OffersController < ApplicationController
 
 		if !params[:tags].nil? && params[:tags].length > 0
 			includes << :tags
-			query.tags_name_equals(params[:tags].split(' ').map(&:downcase)) 
+			query.tags_name_like(params[:tags].split(',').map(&:downcase)) 
 		end
 		
 		if params[:nearest]
@@ -55,6 +55,13 @@ class OffersController < ApplicationController
     end
   end
 	
+	def my
+		@offers = self.current_user.offers.paginate :page => params[:page], 
+																								:per_page => 10,
+																								:order => "created_at DESC",
+																								:include => [:user, :tags]
+	end
+	
 	def suggest_tag
 		@tags = Tag.name_like(params[:tag])
 		
@@ -66,7 +73,8 @@ class OffersController < ApplicationController
   # GET /offers/1.xml
   def show
     @offer = Offer.find_by_permalink!(params[:id])
-
+		Visit.find_or_create_by_ip_and_offer_id(IPAddr.new(request.remote_ip).to_i, @offer.id)
+		
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @offer }
@@ -134,11 +142,4 @@ class OffersController < ApplicationController
     end
   end
 	
-	protected
-		def need_enter_company_information
-			if self.current_user.company.nil?
-				flash[:error] = "Brak danych w profilu"
-				redirect_to settings_path
-			end
-		end
 end

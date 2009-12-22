@@ -16,4 +16,21 @@ module UsersHelper
 		end
 	end
 	
+	def render_attribute_for(model, attribute, name, type=:text)
+		out = ""
+		out += content_tag :dt, name
+		
+		if model.respond_to?("#{attribute}_s")
+			val = model.send("#{attribute}_s")
+		else
+			val = model.send(attribute)
+		end
+		
+		val = text_field_tag "test", val
+		
+		out += content_tag :dd, val, :class => type.to_s, :name => "#{model.class.to_s.downcase}[#{attribute.to_s}]"
+		
+		out
+	end
+	
 end

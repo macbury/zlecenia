@@ -8,27 +8,27 @@ authorization do
   role :guest do
     has_permission_on [:offers, :tools], :to => :view
     
-    has_permission_on [:users, :tools], :to => [:index, :show, :new, :create]
-
+    has_permission_on [:users], :to => [:index, :show, :new, :create]
     has_permission_on :users, :to => [:change, :settings] do
       if_attribute :id => is { user.id }
-    end
-
-		has_permission_on :tools, :to => :change do
-      if_attribute :user_id => is { user.id }
     end
   end
 
 	role :pracodawca do
 		includes :guest
-		has_permission_on :offers, :to => [:create, :new]
-		has_permission_on :offers, :to => [:create, :new, :edit, :update, :destroy, :delete] do
+		has_permission_on :offers, :to => [:create, :new, :my]
+		has_permission_on :offers, :to => [:edit, :update, :destroy, :delete] do
 			if_attribute :user_id => is { user.id }
 		end
 	end
 	
 	role :pracownik do
 		includes :guest
+		
+		has_permission_on [:tools, :achievements], :to => :create
+		has_permission_on [:tools, :achievements], :to => :change do
+      if_attribute :user_id => is { user.id }
+    end
 	end
 end
 

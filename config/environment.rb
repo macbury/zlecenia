@@ -17,6 +17,7 @@ Rails::Initializer.run do |config|
 	config.gem 'RedCloth', :lib => "redcloth"
 	config.gem 'graticule'
 	config.gem 'meta-tags', :lib => 'meta_tags', :source => 'http://gemcutter.org'
+	config.gem 'sitemap_generator', :lib => false, :source => 'http://gemcutter.org'
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.

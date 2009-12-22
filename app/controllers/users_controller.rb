@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :login_required, :except => [:new, :create, :show, :index, :profile, :need_account, :expire]
-  
+  before_filter :need_enter_profile_information, :only => [:show]
+
   filter_access_to [:new, :create, :settings]
   filter_access_to [:edit, :destroy, :update], :attribute_check => true,
                           :load_method => lambda { @user = User.find(params[:id]) }
@@ -32,14 +33,31 @@ class UsersController < ApplicationController
   end
   
   def update
+		saved = @user.update_attributes(params[:user])
+
 		respond_to do |format|
-			if @user.update_attributes(params[:user])
-	      flash[:notice] = "Zapisano zmiany w profilu"
-	      format.html { redirect_to root_url }
-				format.plain { render :text => params[:user][:avatar].nil? ? @user.logo.url(:thumb) : @user.avatar.url(:thumb) }
-	    else
-	      format.html { render :action => 'edit' }
-				format.plain { render :text => params[:user][:avatar].nil? ? @user.logo.url(:thumb) : @user.avatar.url(:thumb) }
+			format.html do
+				if saved
+					flash[:notice] = "Zapisano zmiany w profilu"
+					redirect_to(root_url)
+				else
+					render(:action => 'edit') 
+				end
+			end
+			format.plain do
+				attribute, value = params[:user].to_a.first
+				
+				if @user.respond_to?("#{attribute}_s".to_sym)
+					value = @user.send("#{attribute}_s".to_sym)
+				else
+					value = @user.send(attribute.to_sym)
+				end
+				
+				if saved
+					render :text => value
+				else
+					render :text => @user.errors.full_messages.join("\n"), :status => :unprocessable_entity
+				end
 	    end
 		end
   end
@@ -69,13 +87,13 @@ class UsersController < ApplicationController
 	end
 	
 	def show
-		@user = User.find_by_permalink!(params[:id])
-		if @user.first_name.nil?
+		@user = User.find_by_permalink!(params[:id], :include => [:tags] )
+		@grouped_achievements = @user.achievements.all(:order => "type_id ASC").group_by { |achievement| achievement.type_id }
+		
+		unless @user.valid?
 			flash[:error] = "Brak danych w profilu"
 			redirect_to logged_in? ? settings_path : root_path
 		end
-		@grouped_tools = @user.tools.group_by { |tool| tool.type_id }
-		#@page_keywords += ', ' + @user.tools.map(&:name).join(', ')
 		
 		respond_to do |format|
 			format.html

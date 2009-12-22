@@ -1,23 +1,16 @@
 <h3>Dane podstawowe</h3>
-<% semantic_form_for @user, :html => { :multipart => true } do |f| %>
+<% semantic_form_for @user do |f| %>
 
-<% if @user.facebook? %>
-	<% f.inputs do %>
-		<%= f.input :github, :required => false %>
-		<%= f.input :company, :required => false %>
-		<%= f.input :phone, :hint => "Widoczny tylko dla pracodawcy", :required => false %>
-	<% end %>
-<% elsif @user.pracownik? %>
 	<% f.inputs do %>
 		<%= f.input :first_name %>
 		<%= f.input :last_name %>
+		<%= f.input :email, :hint => @user.facebook? ? "podaj do celów kontaktowych" : nil %>
 		<%= f.input :sex, :as => :radio, :collection => [["Mężczyzna", 0], ["Kobieta", 1]] %>
 		<%= f.input :birthdate, :end_year => 18.years.ago.at_beginning_of_year.year, :start_year => 1950 %>
-		<%= f.input :website, :required => false %>
-		<%= f.input :phone, :hint => "Widoczny tylko dla pracodawcy", :required => false %>
+		<%= f.input :website, :required => false, :hint => "zaczynać się musi od http://" %>
+		<%= f.input :phone, :hint => "widoczny tylko dla pracodawcy", :required => false %>
 		<%= f.input :place_id, :collection => Place.cities.map { |place| [place.name, place.id] } %>
 		<%= f.input :github, :required => false %>
-	<% end %>
 <% end %>
 <p><%= f.submit "Zapisz" %></p>
 <% end %>
@@ -34,15 +27,32 @@
 		<% end %>
 	<% end %>
 <% end %>
+
 <h3>Warsztat pracy</h3>
-<p>Podaj z jakich narzędzi korzystasz:</p>
-<ul id="tools">
-	<%= render :partial => @user.tools %>
+<% semantic_form_for @user do |f| %>
+	<% f.inputs do %>
+		<%= f.input :operating_system_list, :required => false, :hint => "podaj odzielone przecinkiem np. Linux, Mac OS X, Windows"  %>
+		<%= f.input :framework_list, :required => false, :hint => "podaj odzielone przecinkiem np. Ruby On Rails, Django, Pylons, CakePHP, jQuery, Prototype" %>
+		<%= f.input :program_list, :required => false, :hint => "podaj odzielone przecinkiem np. TextMate, NetBeans, Aptana, Eclpise" %>
+		<%= f.input :language_list, :required => false, :hint => "podaj odzielone przecinkiem np. Ruby, Python, ASP, Java, PHP, HTML, JS, CSS" %>
+		<%= f.input :database_list, :required => false, :hint => "podaj odzielone przecinkiem np. Postgresql, MySql, Oracle" %>
+		<%= f.input :version_control_system_list, :required => false, :hint => "podaj odzielone przecinkiem np. GIT, SVN, Mercurial" %>
+		<%= f.input :plugin_list, :required => false, :hint => "podaj odzielone przecinkiem np. authlogic, will_paginate, formtastic, paperclip" %>
+	<% end %>
+<p><%= f.submit "Zapisz" %></p>
+<% end %>
+
+<h3>Osiągnięcia</h3>
+
+<ul id="achievements">
+	<% for achivment in @user.achievements.all(:order => "type_id ASC") %>
+		<li><%= ACHIEVEMENT_TYPES[achivment.type_id] %>: <%= achivment.description %></li>
+	<% end %>
 </ul>
 
-<% form_for @user.tools.new do |f| %>
-	<%= f.select :type_id, collection_from_types(TOOL_TYPES) %>
-	<%= f.text_field :name %>
+<% form_for @user.achievements.new do |f| %>
+	<%= f.select :type_id, collection_from_types(ACHIEVEMENT_TYPES) %>
+	<%= f.text_field :description %>
 	<%= f.submit "Dodaj" %>
 <% end %>
-<div class="loader" id="tool_loader"></div>
+<div class="loader" id="achievement_loader"></div>

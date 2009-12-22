@@ -9,7 +9,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091220205842) do
+ActiveRecord::Schema.define(:version => 20091222185344) do
+
+  create_table "achievements", :force => true do |t|
+    t.integer  "type_id",     :default => 0
+    t.integer  "user_id"
+    t.string   "description"
+    t.date     "from"
+    t.date     "to"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -59,8 +69,9 @@ ActiveRecord::Schema.define(:version => 20091220205842) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "end_at"
-    t.integer  "etat",        :default => 0
-    t.boolean  "zdalnie",     :default => false
+    t.integer  "etat",         :default => 0
+    t.boolean  "zdalnie",      :default => false
+    t.integer  "visits_count", :default => 0
   end
 
   create_table "places", :force => true do |t|
@@ -112,25 +123,12 @@ ActiveRecord::Schema.define(:version => 20091220205842) do
 
   add_index "tags", ["name", "kind"], :name => "index_tags_on_name_and_kind"
 
-  create_table "tools", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "name"
-    t.integer  "type_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "users", :force => true do |t|
     t.string   "email"
     t.string   "crypted_password"
     t.string   "password_salt"
     t.string   "persistence_token"
     t.integer  "login_count",                      :default => 0,     :null => false
-    t.datetime "last_request_at"
-    t.datetime "last_login_at"
-    t.datetime "current_login_at"
-    t.string   "last_login_ip"
-    t.string   "current_login_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "first_name"
@@ -157,7 +155,13 @@ ActiveRecord::Schema.define(:version => 20091220205842) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
-  add_index "users", ["last_request_at"], :name => "index_users_on_last_request_at"
   add_index "users", ["persistence_token"], :name => "index_users_on_persistence_token"
+
+  create_table "visits", :force => true do |t|
+    t.integer  "offer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "ip"
+  end
 
 end

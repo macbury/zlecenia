@@ -18,6 +18,11 @@
 <%= image_tag @offer.user.logo.url unless @offer.user.logo.original_filename.nil? %>
 <%= RedCloth.new(@offer.description).to_html %>
 
+<p>
+	Opublikowana <%= l @offer.created_at, :format => :short %><br/>
+	Wyświetlona: <%= @offer.visits_count %> razy
+</p>
+
 <% if permitted_to? :edit, @offer %>
 	<%= link_to 'Edytuj', edit_offer_path(@offer) %> |
 	<%= link_to 'Wstecz', offers_path %>

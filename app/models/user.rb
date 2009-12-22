@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
 	xss_terminate
 	has_permalink :dynamic_permalink, :update => true
-	acts_as_geocodable	:units => :kilometers
+	
+	is_taggable :operating_system, :framework, :plugin, :program, :language, :database, :version_control_system
+	
 	has_attached_file :logo, :styles => { :original => "500x200>", :thumb => "200x100>" },
 			:url  => "/logos/:style/:id.:extension",
 		  :path => ":rails_root/public/logos/:style/:id.:extension"
@@ -17,7 +19,7 @@ class User < ActiveRecord::Base
 	acts_as_authentic do |c|
 		login_field :email 
 		validate_login_field false
-		validate_email_field false
+		#validate_email_field false
 		validate_password_field false
 	end
 	
@@ -25,9 +27,6 @@ class User < ActiveRecord::Base
 	has_many :offers, :dependent => :destroy
 	belongs_to :place
 	
-	validates_presence_of :email, :unless => :facebook?
-	validates_format_of :email, :with => Authlogic::Regex.email, :unless => :facebook?
-	validates_uniqueness_of :email, :unless => :facebook?
 	validates_length_of :password, :within => 3..20, :if => :require_password_facebook?
 	validates_confirmation_of :password, :if => :require_password_facebook?
 	
@@ -47,7 +46,7 @@ class User < ActiveRecord::Base
 	validates_inclusion_of :type_id, :in => 0..1
 	validates_format_of :website, :with =>         /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix, :on => :update
 	
-	validates_format_of :phone, :with => /[0-9]{10}/, :on => :update, :unless => lambda { @phone.blank? }
+	validates_format_of :phone, :with => /[0-9]{10}/, :on => :update, :unless => lambda { @phone.nil? || @phone.empty? }
 	
   validates_inclusion_of :birthdate,
       :in => Date.new(1900)..18.years.ago.to_date,
@@ -60,6 +59,7 @@ class User < ActiveRecord::Base
 	
 	has_many :assignments, :dependent => :destroy
   has_many :roles, :through => :assignments
+	has_many :achievements, :dependent => :destroy
 	
 	after_create :create_roles
 	
@@ -69,6 +69,16 @@ class User < ActiveRecord::Base
 		else
 			firma? ? company : "#{first_name} #{last_name}"
 		end
+	end
+	
+	def full_name=(name)
+		split = name.split(' ', 2)
+	  self.first_name = split.first
+	  self.last_name = split.last
+	end
+	
+	def sex_s
+		["mężczyzna", "kobieta"][self.sex]
 	end
 	
 	def dynamic_permalink
@@ -119,7 +129,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def osobaFizyczna?
-		(pracodawca? || (pracownik? && !facebook?)) && self.osoba_prywatna
+		((pracodawca? && self.osoba_prywatna ) || (pracownik?)) 
 	end
 	
 	def pracownik?

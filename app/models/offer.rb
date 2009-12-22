@@ -2,13 +2,14 @@ OFFER_TYPES = ['Programowanie', 'Administrowanie', 'Wygląd']
 ETAT_TYPES = ["zlecenie (konkretna usługa do wykonania)", "poszukiwanie współpracowników / oferta pracy", "wolontariat (praca za reklamy, bannery, itp. lub praca za darmo)", "staż/praktyka"]
 ETAT_LABELS = ["zlecenie", "etat", "wolontariat", "praktyka"]
 class Offer < ActiveRecord::Base
+	has_many :visits, :dependent => :destroy
 	belongs_to :user
 	belongs_to :place
 	
 	is_taggable :tags
 	xss_terminate
 	has_permalink :title
-	acts_as_geocodable	:units => :kilometers
+	acts_as_geocodable :units => :kilometers
 	
 	validates_presence_of :title, :description, :tag_list
 	validates_length_of :title, :within => 3..255

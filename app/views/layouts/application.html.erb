@@ -20,7 +20,8 @@
 			<% if logged_in? %>
 				Witaj <%= login_for(self.current_user) %>! 
 				<% if self.current_user.pracodawca? %>
-					<%= link_to "Moje oferty", "#" %> | 
+					<%= link_to "Dodaj ofertę", new_offer_path %> | 
+					<%= link_to "Moje oferty", my_offers_path %> | 
 				<% end %>
 				<%= link_to "Edycja Profilu", settings_path %> | 
 				<%= link_to "Wyloguj", logout_path %>
@@ -39,7 +40,7 @@
 		<div class="footer">
 			HTS &copy; 2010
 			<span class="right">
-				<a href="/register">Strona główna</a> | 
+				<a href="/">Strona główna</a> | 
 				<a href="/register">Rejestracja</a> | 
 				<a href="/about">Grupy</a> | 
 				<a href="/login">Logowanie</a>

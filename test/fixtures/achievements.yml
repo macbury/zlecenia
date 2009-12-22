@@ -1,0 +1,11 @@
+one:
+  type_id: 1
+  description: MyString
+  from: 2009-12-21
+  to: 2009-12-21
+
+two:
+  type_id: 1
+  description: MyString
+  from: 2009-12-21
+  to: 2009-12-21

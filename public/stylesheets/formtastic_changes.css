@@ -11,3 +11,4 @@ form.formtastic fieldset ol li p.inline-hints { color:#333; }
 
 form.formtastic fieldset ol li fieldset legend { position: static; }
 form.formtastic fieldset ol li p.inline-hints { clear: both; }
+form.formtastic fieldset ol li label { padding-top: 0.4em; }

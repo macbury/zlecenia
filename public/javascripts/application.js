@@ -10,6 +10,7 @@ function flash(type, message) {
 
 $(document).ready(function () {
 	// Strona profilu
+
 	$('#new_tool').ajaxForm({
 		dataType: "script",
 		beforeSubmit: function (formData, jqForm, options) { $(jqForm).hide(); $('#tool_loader').show(); return true },
@@ -40,7 +41,7 @@ $(document).ready(function () {
 		url: "/offers/suggest_tag",
 		tagContainer: "div",
 		tagWrap: "div",
-		separator: " ",
+		separator: ",",
 		delay: 200
 	});
 	

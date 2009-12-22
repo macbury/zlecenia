@@ -24,10 +24,6 @@
 	<% end %>
 	</ul>
 	<%= will_paginate @offers %>
-	<br />
-	<% if permitted_to? :create, Offer.new %>
-	<%= link_to 'New offer', new_offer_path %>
-	<% end %>
 </div>
 <div class="sidebar">
 	<% form_tag params[:type].nil? ? offers_path : seo_offers_path(:type => params[:type]), :method => :get do %>
@@ -44,6 +40,7 @@
 		</li>
 		<% end %>
 	</ul>
+	<% unless @places.empty? %>
 	<h3>Wybrane lokalizacje</h3>
 	<ul id="localizations">
 		<% if pracownik? && !self.current_user.place.nil? %>
@@ -59,7 +56,7 @@
 		</li>
 		<% end %>
 	</ul>
-	
+	<% end %>
 		<%= submit_tag "Filtruj" %>
 	<% end %>
 </div>

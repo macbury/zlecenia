@@ -10,12 +10,33 @@ body {
 }
 
 h1, h2, h3, h4 { margin: 0 0 5px 0; }
-
 a { color: #31627E; cursor: pointer; outline: none !important; text-decoration: none; }
 a:visited { color: #105CB6; }
 a:hover, a:focus { color: #FF5917; }
 a:active { color: #000; }
 a img { border: 0; }
+
+/* Table */
+
+table { 
+	border-collapse:collapse; 
+	border: 1px solid #ccc;
+	width: 100%;
+}
+
+td, th { 
+	font-size:11px; 
+	border-bottom:1px solid #eee; 
+	padding:5px; 
+	font-family:"Lucida Grande", Verdana, Arial, sans-serif; 
+}
+
+th { text-align:left; font-size:12px; }
+
+thead th	{ font-weight:bold; color:#666; padding:2px 5px; font-size:11px; background:#e1e1e1 url(/images/nav-bg.gif) top left repeat-x; border-left:1px solid #ddd; border-bottom:1px solid #ddd; }
+thead th:first-child { border-left:none !important; }
+thead th.optional { font-weight:normal !important; }
+tr.alt { background:#f6f6f6; }
 
 /* Custom class */
 
@@ -162,7 +183,7 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 /* Content */
 
 .wrapper > .content {
-	min-height: 585px;
+	min-height: 320px;
 	width: 690px;
 	float: left;
 }
@@ -173,7 +194,7 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 	float: left;
 	width: 200px;
 	padding: 0 0 0 10px;
-	min-height: 400px;
+	min-height: 320px;
 }
 
 .sidebar h3 {
@@ -287,9 +308,49 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 	cursor: pointer;
 }
 
-/* Columns */
+/* Profil */
 
-.column {
-	width: 33%;
+.cv_body h3 {
+	font-size: 20px;
+	width: 100%;
 	float: left;
+	padding-bottom: 3px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #ccc;
+}
+ 
+dl.cv_main {
+	padding-top: 0px;
+	margin-bottom: 10px;
+	width: 100%;
+	float: left;
+	display: block;
+}
+ 
+dl.cv_main dt {
+	width: 225px;
+	text-align: right;
+	color: #888;
+	float: left;
+	display: block;
+	padding: 0 10px 6px 0;
+	margin: 0;
+}
+ 
+dl.cv_main dd {
+	width: 640px;
+	border-left: 1px solid #ccc;
+	float: left;
+	padding: 0 0 10px 10px;
+	margin: 0;
+}
+ 
+dl.cv_main dd ul {
+	padding: 5px 0 0 20px;
+	margin: 0;
+}
+ 
+dl.cv_main dd ul.skills {
+	padding: 0px 0 0 20px;
+	margin: 0;
 }

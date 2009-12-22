@@ -1,58 +1,65 @@
-<h2><%= title @user.full_name %></h2>
+<% title ["Curriculum Vitae", @user.full_name] %>
 
-<div class="column">
-	<%= avatar_for(@user) %>
-	<h3>Informacje</h3>
-	<dl>
-		<dt>Imie i Nazwisko</dt>
+<div class="cv_body">
+	<h3>Dane osobiste</h3>
+	<dl class="cv_main">
+		<dt>imię i nazwisko</dt>
 		<dd><%= @user.full_name %></dd>
-		<dt>Płeć</dt>
-		<dd><%= @user.sex == 0 ? "Mężczyzna" : "Kobieta" %></dd>
-		<% if pracodawca?(@user) %>
-		<dt>Data urodzenia</dt>
+		<dt>płeć</dt>
+		<dd><%= @user.sex_s %></dd>
+		<dt>data urodzenia</dt>
 		<dd><%= l @user.birthdate, :format => :long %></dd>
-		<dt>Strona WWW</dt>
-		<dd><%= @user.website.nil? || @user.website.empty? ? "Brak" : link_to(@user.website, @user.website, :target => "_blank") %></dd>
-		<dt>Miejsce zamieszkania</dt>
+		<dt>miejsce zamieszkania</dt>
 		<dd><%= @user.place.nil? ? "Brak" : @user.place.name %></dd>
-			<% if @user.facebook? %>
-			<dt>Facebook</dt>
-			<dd>
-				<fb:name uid="<%= @user.facebook_uid %>" useyou="false"></fb:name>
-			</dd>
+		<% if pracodawca?(@user) %>
+			<dt>e-mail</dt>
+			<dd><%= link_to @user.email, "mailto:#{@user.email}" %></dd>
+			<% if (@user.phone.nil? || !@user.phone.empty?) %>
+				<dt>telefon</dt>
+				<dd><%= @user.phone %></dd>
 			<% end %>
 		<% else %>
-			<dt>Musisz się zalogować aby móc zobaczyć wszystkie dane!</dt>
+			<dt>e-mail</dt>
+			<dd>wymagane konto pracodawcy</dd>
+			<dt>telefon</dt>
+			<dd>wymagane konto pracodawcy</dd>
+		<% end %>
+		<% if !@user.website.nil? || !@user.website.empty? %>
+		<dt>strona WWW</dt>
+		<dd><%= link_to(@user.website, @user.website, :target => "_blank") %></dd>
+		<% end %>
+		<% if @user.facebook? %>
+		<dt>facebook</dt>
+		<dd><fb:name uid="<%= @user.facebook_uid %>" useyou="false"></fb:name>&nbsp;</dd>
 		<% end %>
 	</dl>
-</div>
-
-<div class="column">
+	
 	<h3>Warsztat pracy</h3>
-	<dl>
-	<% @grouped_tools.each do |group, tools| %>
-		<dt><%= TOOL_TYPES[group] %></dt>
-		<dd><%= tools.map(&:name).join(", ") %></dd>
+	<dl class="cv_main">
+	<% [:operating_system, :framework, :plugin, :program, :language, :database, :version_control_system].each do |group| %>
+		<dt><%= t("groups.#{group}").downcase %></dt>
+		<%- tags = @user.send("#{group}_list") -%>
+		<dd><%= tags.empty? ? "brak" : tags %></dd>
 	<% end %>
 	</dl>
-</div>
-
-<div class="column">
+	
 	<% if @user.github? %>
-		<h3>Profil na <%= link_to "GitHub.com", "http://github.com/#{@user.github_user.login}" %></h3>
+		<h3>Projekty prywante i non-profit(repozytoria na github.com)</h3>
 		<% if @user.repositories.empty? %>
 			<p>Nie można pobrać informacji z github.com</p>
 		<% else %>
-		<ul>
+		<dl class="cv_main">
 			<% for repository in @user.repositories %>
-				<li>
-					<%= link_to repository.name, repository.url, :target => "_blank" %><br />
-					<%= repository.description %>
-				</li>
+			<dt><%= link_to repository.name, repository.url, :target => "_blank" %></dt>
+			<dd><%= repository.description.nil? || repository.description.empty? ? "Brak opisu" :  repository.description %></dd>
 			<% end %>
-		</ul>
+		</dl>
 		<% end %>
 	<% end %>
 </div>
 
-<div class="clear"></div>
+<p>
+	<strong>
+	<%= @user.full_name %> wyraża zgodę na przetwarzanie swoich danych osobowych zawartych w swojej ofercie pracy dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z ustawą z dn. 29.08.97 roku o Ochronie Danych Osobowych Dz. Ust Nr 133 poz. 883).
+	</strong>
+</p>

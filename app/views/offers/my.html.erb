@@ -1,0 +1,42 @@
+<h2><%= title "Moje oferty" %></h2>
+
+<table>
+	<thead>
+		<tr>
+			<th>Nazwa</th>
+			<th width="70px" class="text_center">Wyświetleń</th>
+			<th width="100px" class="text_center">Zainteresowanych</th>
+			<th width="110px" class="text_center">Data wygaśnięcia</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% if @offers.empty? %>
+			<tr>
+				<td colspan="4" class="info">Brak ofert</td>
+			</tr>
+		<% else %>
+			<% for offer in @offers %>
+			<tr class="<%= cycle('normal', 'alt') %>">
+				<td>
+					<%= link_to offer.title, seo_offer_path(offer) %>
+					<% if permitted_to? :edit, offer  %>
+					 [ 
+						<%= link_to 'Edytuj', edit_offer_path(offer) %> |
+						<%= link_to 'Usuń', offer, :method => :destroy, :confirm => "Czy na pewno chcesz usunąć ofertę?" %>
+					 ]
+					<% end %>
+				</td>
+				<td class="text_center"><%= offer.visits_count %></td>
+				<td class="text_center">0</td>
+				<td class="text_center">
+					<% if offer.end_at < Date.current %>
+						<strong>Zakończony</strong>
+					<% else %>
+						<%= l offer.end_at, :format => :long %>
+					<% end %>
+				</td>
+			</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>

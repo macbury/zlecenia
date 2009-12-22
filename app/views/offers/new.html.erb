@@ -6,10 +6,9 @@
 		<%= f.input :place_id, :collection => Place.cities.map { |place| [place.name, place.id] } , :required => false %>
 		<%= f.input :type_id, :as => :select, :collection => collection_from_types(OFFER_TYPES) %>
 		<%= f.input :etat, :as => :radio, :collection => collection_from_types(ETAT_TYPES) %>
-		<%= f.input :dlugosc_trwania, :as => :numeric, :hint => "ile dni oferta ma być ważna(od 1 do 60 dni)" %>
-		<%= f.input :tag_list, :hint => "podaj tagi odzielone spacją, np. Flash Programista PHP C# Java MySQL Oracle Delphi ASP Linux" %>
-		
 		<%= f.input :zdalnie, :required => false %>
+		<%= f.input :dlugosc_trwania, :as => :numeric, :hint => "ile dni oferta ma być ważna(od 1 do 60 dni)" %>
+		<%= f.input :tag_list, :hint => "podaj tagi odzielone przecinkiem, np. Flash, Programista, PHP, C#, Java, MySQL, Oracle, Delphi, ASP, Linux," %>
 	<% end %>
 
 	<h3>Opis</h3>
@@ -21,6 +20,6 @@
 		<% unless @offer.new_record? %>
 		, <%= link_to "usuń", @offer, :method => :delete, :confirm => "Czy na pewno chcesz usunąć ofertę?" %>
 		<% end %>
-		 albo <%= link_to 'anuluj', offers_path %>
+		 albo <%= link_to 'anuluj', my_offers_path %>
 	</p>
 <% end %>

@@ -1,1 +1,0 @@
-IsTaggable::TagList.delimiter = " "

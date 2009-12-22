@@ -8,12 +8,12 @@ class UserSessionsController < ApplicationController
     if @user_session.save
       flash[:notice] = "Successfully created user session."
 
-			if self.current_user.facebook?
-				self.current_user.before_connect(self.facebook_session)
-				self.current_user.save
-			end
+			#if self.current_user.facebook?
+				#self.current_user.before_connect(self.facebook_session)
+				#self.current_user.save
+			#end
 
-      redirect_to root_url
+      redirect_back_or_default
     else
       render :action => 'new'
     end

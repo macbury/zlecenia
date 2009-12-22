@@ -50,6 +50,10 @@ class ApplicationController < ActionController::Base
     !self.current_user.nil?
   end
   
+	def wymagany_pracodawca
+		redirect_to root_path unless pracodawca?(self.current_user)
+	end
+
 	def pracodawca?(user)
 		logged_in? && (self.current_user.pracodawca? || self.current_user.id == user.id)
 	end
@@ -71,6 +75,13 @@ class ApplicationController < ActionController::Base
     session[:return_to] = nil
   end
   
+	def need_enter_profile_information(user=nil)
+		if logged_in? && !self.current_user.valid?
+			flash[:error] = "Brak danych w profilu"
+			redirect_to logged_in? ? settings_path : root_path
+		end
+	end
+
   def login_required
     unless logged_in?
       respond_to do |format|

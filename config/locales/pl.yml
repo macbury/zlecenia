@@ -2,6 +2,14 @@
 # by Jacek Becela (jacek.becela@gmail.com, http://github.com/ncr)
 
 pl:
+  groups:
+    operating_system: "system operacyjny"
+    program: "programy"
+    framework: "frameworki"
+    plugin: "pluginy"
+    language: "języki programowania"
+    database: "bazy danych"
+    version_control_system: "systemy kontroli wersji"
   number:
     format:
       separator: ","
@@ -124,6 +132,13 @@ pl:
         terms_of_service: "Regulamin"
         type_id: "Typ konta"
         przetwarzanie_danych: "Wyrażam zgodę na przetwarzanie moich danych osobowych zawartych w mojej ofercie pracy dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z ustawą z dn. 29.08.97 roku o Ochronie Danych Osobowych Dz. Ust Nr 133 poz. 883)"
+        operating_system_list: "Systemy Operacyjne"
+        program_list: "Programy"
+        framework_list: "Frameworki"
+        plugin_list: "Pluginy"
+        language_list: "Języki programowania"
+        database_list: "Bazy danych"
+        version_control_system_list: "Systemy kontroli wersji"
     errors:
       template:
         header:
@@ -150,7 +165,8 @@ pl:
         less_than_or_equal_to: "musi być mniejsze lub równe {{count}}"
         odd: "musi być nieparzyste"
         even: "musi być parzyste"
-      
+        record_invalid: "nieprawidłowe dane"
+        
   support:
     array:
       sentence_connector: "i"

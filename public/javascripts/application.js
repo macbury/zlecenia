@@ -10,12 +10,22 @@ function flash(type, message) {
 
 $(document).ready(function () {
 	// Strona profilu
-
-	$('#new_tool').ajaxForm({
+	
+	$('#achievement_type_id').change(function () {
+		var selected = $(this).find(':selected').val();
+		var form = $('#new_achievement');
+		if (selected == "0") {
+			form.find('.date select:not(#achievement_from_1i):not(#achievement_to_1i)').hide();
+		}else{
+			form.find('.date select').show();
+		}
+	}).change();
+	
+	$('#new_achievement').ajaxForm({
 		dataType: "script",
-		beforeSubmit: function (formData, jqForm, options) { $(jqForm).hide(); $('#tool_loader').show(); return true },
-		success: function () { $('#new_tool').show(); $('#tool_loader').hide(); },
-		clearForm: true
+		beforeSubmit: function (formData, jqForm, options) { $(jqForm).hide(); $('#new_achievement_loader').show(); return true; },
+		success: function () { $('#new_achievement').show(); $('#new_achievement_loader').hide(); },
+		resetForm: true
 	});
 	
 	$('#file_upload').ajaxForm({

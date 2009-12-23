@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :except => [:new, :create, :show, :index, :profile, :need_account, :expire]
-  before_filter :need_enter_profile_information, :only => [:show]
-
+  before_filter :login_required, :except => [:new, :create, :index, :profile, :need_account, :expire]
+	
   filter_access_to [:new, :create, :settings]
   filter_access_to [:edit, :destroy, :update], :attribute_check => true,
                           :load_method => lambda { @user = User.find(params[:id]) }
@@ -88,16 +87,22 @@ class UsersController < ApplicationController
 	
 	def show
 		@user = User.find_by_permalink!(params[:id], :include => [:tags] )
-		@grouped_achievements = @user.achievements.all(:order => "type_id ASC").group_by { |achievement| achievement.type_id }
+		
+		unless logged_in? && (self.current_user.pracodawca? || self.current_user == @user)
+			redirect_to root_path
+		end
+		
+		@grouped_achievements = @user.achievements.all(:order => "type_id ASC, achievements.from DESC").group_by { |achievement| achievement.type_id }
 		
 		unless @user.valid?
 			flash[:error] = "Brak danych w profilu"
 			redirect_to logged_in? ? settings_path : root_path
 		end
 		
-		respond_to do |format|
-			format.html
-			format.xfbml
-		end
+		#respond_to do |format|
+		#	format.html
+		#	format.xfbml
+		#end
 	end
+
 end

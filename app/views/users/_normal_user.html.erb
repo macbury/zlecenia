@@ -42,17 +42,20 @@
 <p><%= f.submit "Zapisz" %></p>
 <% end %>
 
-<h3>Osiągnięcia</h3>
+<h3>Osiągnięcia/Edukacja</h3>
 
 <ul id="achievements">
-	<% for achivment in @user.achievements.all(:order => "type_id ASC") %>
-		<li><%= ACHIEVEMENT_TYPES[achivment.type_id] %>: <%= achivment.description %></li>
-	<% end %>
+	<%= render :partial => @user.achievements.all(:order => "type_id ASC") %>
 </ul>
 
-<% form_for @user.achievements.new do |f| %>
-	<%= f.select :type_id, collection_from_types(ACHIEVEMENT_TYPES) %>
-	<%= f.text_field :description %>
+<% semantic_form_for @user.achievements.new do |f| %>
+	<% f.inputs do %>
+		<%= f.input :type_id, :collection => collection_from_types(ACHIEVEMENT_TYPES), :include_blank => false %>
+		<%= f.input :from, :start_year => 20.years.ago.year, :prompt => false %>
+		<%= f.input :to, :prompt => { :year => '[ aktualnie ]' }%>
+		<%= f.input :description %>
+	<% end %>
+
 	<%= f.submit "Dodaj" %>
 <% end %>
-<div class="loader" id="achievement_loader"></div>
+<div class="loader" id="new_achievement_loader"></div>

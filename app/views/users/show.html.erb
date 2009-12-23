@@ -34,6 +34,16 @@
 		<% end %>
 	</dl>
 	
+	<% @grouped_achievements.each do |type_id, achievements| %>
+		<h3><%= ACHIEVEMENT_TYPES[type_id] %></h3>
+		<dl class="cv_main">
+			<% for achievement in achievements %>
+				<dt><%= data_range(achievement) %></dt>
+				<dd><%= achievement.description %></dd>
+			<% end %>
+		</dl>
+	<% end %>
+	
 	<h3>Warsztat pracy</h3>
 	<dl class="cv_main">
 	<% [:operating_system, :framework, :plugin, :program, :language, :database, :version_control_system].each do |group| %>

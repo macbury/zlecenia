@@ -44,7 +44,9 @@ class User < ActiveRecord::Base
 
 	validates_inclusion_of :sex, :in => 0..1, :on => :update
 	validates_inclusion_of :type_id, :in => 0..1
-	validates_format_of :website, :with =>         /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix, :on => :update
+	validates_format_of :website, :with =>  /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix, :on => :update
+	validates_format_of :goldenline, :with => /^http:\/\/www.goldenline.pl\/+/ix, :on => :update, :if => lambda { !(@goldenline.nil? || @goldenline.empty?) }
+	validates_format_of :profeo, :with => /^http:\/\/www.profeo.pl\/+/ix, :on => :update, :if => lambda { !(@profeo.nil? || @profeo.empty?) }
 	
 	validates_format_of :phone, :with => /[0-9]{10}/, :on => :update, :unless => lambda { @phone.nil? || @phone.empty? }
 	

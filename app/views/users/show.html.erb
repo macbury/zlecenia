@@ -24,13 +24,21 @@
 			<dt>telefon</dt>
 			<dd>wymagane konto pracodawcy</dd>
 		<% end %>
-		<% if !@user.website.nil? || !@user.website.empty? %>
+		<% if !(@user.website.nil? || @user.website.empty?) %>
 		<dt>strona WWW</dt>
 		<dd><%= link_to(@user.website, @user.website, :target => "_blank") %></dd>
 		<% end %>
+		<% if !(@user.goldenline.nil? || @user.goldenline.empty?) %>
+		<dt>goldenline.pl</dt>
+		<dd><%= link_to(@user.goldenline, @user.goldenline, :target => "_blank") %></dd>
+		<% end %>
+		<% if !(@user.profeo.nil? || @user.profeo.empty?) %>
+		<dt>profeo.pl</dt>
+		<dd><%= link_to(@user.profeo, @user.profeo, :target => "_blank") %></dd>
+		<% end %>
 		<% if @user.facebook? %>
 		<dt>facebook</dt>
-		<dd><fb:name uid="<%= @user.facebook_uid %>" useyou="false"></fb:name>&nbsp;</dd>
+		<dd><%= link_to "http://www.facebook.com/profile.php?id=#{@user.facebook_uid}", "http://www.facebook.com/profile.php?id=#{@user.facebook_uid}" %></dd>
 		<% end %>
 	</dl>
 	

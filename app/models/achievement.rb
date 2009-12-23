@@ -9,5 +9,6 @@ class Achievement < ActiveRecord::Base
 	
 	validates_presence_of :description
 	validates_length_of :description, :within => 3..255
+	validates_inclusion_of :type_id, :in => 0..ACHIEVEMENT_TYPES.size-1
 	
 end

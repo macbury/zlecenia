@@ -346,7 +346,9 @@ dl.cv_main dd {
 	padding: 0 0 10px 10px;
 	margin: 0;
 }
- 
+
+dl.cv_main dd:last-child { padding-bottom: 0px; }
+
 dl.cv_main dd ul {
 	padding: 5px 0 0 20px;
 	margin: 0;

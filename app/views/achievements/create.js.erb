@@ -1,3 +1,6 @@
 <% if @achievement.valid? %>
-$('#achievements').append(<%= render(:partial => @achievement).inspect %>);
+	$('#achievements').append(<%= render(:partial => @achievement).inspect %>);
+	$('#new_achievement')[0].reset();
+<% else %>
+	show_errors("#new_achievement",<%= errors_to_json(@achievement) %>);
 <% end %>

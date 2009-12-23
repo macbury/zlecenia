@@ -6,7 +6,7 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
-      flash[:notice] = "Successfully created user session."
+      flash[:notice] = "Zostałeś zalogowany!"
 
 			#if self.current_user.facebook?
 				#self.current_user.before_connect(self.facebook_session)

@@ -107,6 +107,7 @@ pl:
     models:
       user: "Użytkownik"
       offer: "Oferta"
+      achievement: "Osiągnięcie"
     attributes:
       offer:
         title: "Tytuł"
@@ -118,13 +119,20 @@ pl:
         dlugosc_trwania: "Długość trwania"
         zdalnie: "Praca zdalna"
         tag_list: "Tagi"
+      achievement:
+        description: "Opis"
+        from: "Od"
+        to: "Do"
+        type_id: "Typ"
       user:
         osoba_prywatna: "Firma / Osoba fizyczna"
         first_name: "Imię"
         last_name: "Nazwisko"
         sex: "Płeć"
         birthdate: "Data urodzenia"
-        github: "Login GitHub"
+        github: "GitHub.com"
+        goldenline: "GoldenLine.pl"
+        profeo: "Profeo.pl"
         company: "Firma"
         place_id: "Lokalizacja"
         website: "Strona WWW"

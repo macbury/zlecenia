@@ -4,12 +4,7 @@ class AchievementsController < ApplicationController
 	
   def create
 		@achievement.user = self.current_user
-		
-		if @achievement.save
-      flash[:notice] = "Osiągnięcie dodane"
-    else
-			flash[:error] = "Nie można dodać osiągnięcia: " + @achievement.errors.full_messages.join(',')
-    end
+		@achievement.save
 
 		respond_to do |format|
 			format.html { redirect_to settings_path }

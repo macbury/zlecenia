@@ -1,4 +1,4 @@
 <li>
 	<strong><%= ACHIEVEMENT_TYPES[achievement.type_id] %> - <%= data_range(achievement) %>:</strong> 
-	<%= achievement.description %>
+	<%= achievement.description %> - <%= link_to "Usuń", achievement, :method => :delete, :confirm => "Czy na pewno chcesz usunąć osiągnięcie?" %>
 </li>

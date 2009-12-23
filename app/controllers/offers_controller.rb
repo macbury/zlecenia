@@ -29,8 +29,15 @@ class OffersController < ApplicationController
 		end
 
 		if !params[:tags].nil? && params[:tags].length > 0
-			includes << :tags
-			query.tags_name_like(params[:tags].split(',').map(&:downcase)) 
+			#includes << :tags
+			tag_conditions = []
+			
+			param_tags = params[:tags].split(',').map(&:downcase)
+			param_tags.size.times { tag_conditions << " name ILIKE ? " }
+			tag_conditions = [tag_conditions.join(' OR ')] + param_tags.map { |tag| "%#{tag}%" }
+			
+			tags = Tag.all(:conditions => tag_conditions)
+			query.tags_id_equals(tags.map(&:id)) 
 		end
 		
 		if params[:nearest]

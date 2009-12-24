@@ -22,8 +22,9 @@ class ApplicationController < ActionController::Base
   end
 	
 	def seo
+		@standard_tags = 'praca IT, zlecenia IT, programista, webdeveloper, grafik, administrator, staż, praktyka, wolontariusz, etat, praca zdalna'
 		set_meta_tags :description => 'Oferty pracy dla programistów, webdeveloperów, administratorów oraz grafików',
-	                :keywords => 'praca IT, oferty pracy IT, zlecenia IT, programista, webdeveloper, grafik, administrator, staż, praktyka, wolontariusz, etat, praca zdalna'
+	                :keywords => @standard_tags
 		
 	end
 	

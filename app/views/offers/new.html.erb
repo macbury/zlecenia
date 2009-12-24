@@ -8,12 +8,18 @@
 		<%= f.input :etat, :as => :radio, :collection => collection_from_types(ETAT_TYPES) %>
 		<%= f.input :zdalnie, :required => false %>
 		<%= f.input :dlugosc_trwania, :as => :numeric, :hint => "ile dni oferta ma być ważna(od 1 do 60 dni)" %>
+		<li class="numeric prices">
+			<label>Widełki zarobkowe:</label>
+			<%= f.text_field :price_from %> do <%= f.text_field :price_to %>
+			<%= content_tag :p, @offer.errors.on(:price_from).join(', '), :class => "inline-errors" unless @offer.errors.on(:price_from).nil? %>
+			<%= content_tag :p, @offer.errors.on(:price_to).join(', '), :class => "inline-errors" unless @offer.errors.on(:price_to).nil? %>
+		</li>
 		<%= f.input :tag_list, :hint => "podaj tagi odzielone przecinkiem, np. Flash, Programista, PHP, C#, Java, MySQL, Oracle, Delphi, ASP, Linux," %>
 	<% end %>
 
 	<h3>Opis</h3>
 	<%= f.text_area :description %>
-	<%= content_tag :p, @offer.errors.on(:description).join(', '), :style => "color:red" unless @offer.errors.on(:description).nil? %>
+	<%= content_tag :p, @offer.errors.on(:description).join(', '), :class => "inline-errors" unless @offer.errors.on(:description).nil? %>
 
 	<p>
 		<%= f.submit @offer.new_record? ? "Dodaj oferte" : "Zapisz zmiany" %>

@@ -151,7 +151,8 @@ input[type="text"], input[type="password"], textarea {
 	color: #000;
 }
 
-textarea { height: 200px; min-height: 200px; width: 100% !important; }
+textarea { height: 200px; min-height: 200px; }
+#offer_description { width: 100% !important; }
 
 input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 	background-color: #e6f7ff;

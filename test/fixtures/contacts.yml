@@ -1,0 +1,9 @@
+one:
+  body: MyText
+  from_id: 1
+  to_id: 1
+
+two:
+  body: MyText
+  from_id: 1
+  to_id: 1

@@ -1,11 +1,15 @@
 ActionController::Routing::Routes.draw do |map|
+
 	map.with_options :controller => 'offers', :action => 'index' do |offer| 
 		offer.connect '/:type/:page', :requirements => { :type => /(programowanie|administrowanie|wyglad)/i, :page => /\d/ }
 		offer.seo_offers '/:type.:format', :requirements => { :type => /(programowanie|administrowanie|wyglad)/i }
 		offer.connets '/tags/:tags/:page'
 		offer.tags '/tags/:tags'
 	end
-	map.resources :offers, :collection => { :suggest_tag => :any, :my => :get }
+	
+	map.resources :offers, :collection => { :suggest_tag => :any, :my => :get } do |offers|
+		offers.resources :contacts
+	end
 	
 	map.resources :achievements
   map.resources :user_sessions

@@ -1,4 +1,7 @@
-<h2><%= title @offer.title %></h2>
+<% title [@offer.place.name, @offer.user.full_name, @offer.title] %>
+<% keywords @offer.tags.map(&:name).join(', ') + ', ' + @standard_tags %>
+
+<h2><%= @offer.title %></h2>
 
 <p>
 	<%= offer_label(@offer) %> dla <%= link_to @offer.user.full_name, @offer.user.website, :target => "_blank" %> / <%= @offer.place.name %>
@@ -12,18 +15,21 @@
 </p>
 
 <p>
-	Dodano <abbr title="<%= @offer.created_at %>"><%= distance_of_time_in_words_to_now @offer.created_at %> temu</abbr>
+	Dodano <abbr title="<%= @offer.created_at.xmlschema %>"><%= distance_of_time_in_words_to_now @offer.created_at %> temu</abbr><br/>
+	Do wygaśnięcia zostało <abbr title="<%= @offer.end_at.xmlschema %>"><%= distance_of_time_in_words_to_now(@offer.end_at) %></abbr><br/>
+	Wyświetlona: <%= @offer.visits_count %> razy
 </p>
 
 <%= image_tag @offer.user.logo.url unless @offer.user.logo.original_filename.nil? %>
 <%= RedCloth.new(@offer.description).to_html %>
-
 <p>
-	Opublikowana <%= l @offer.created_at, :format => :short %><br/>
-	Wyświetlona: <%= @offer.visits_count %> razy
-</p>
-
 <% if permitted_to? :edit, @offer %>
 	<%= link_to 'Edytuj', edit_offer_path(@offer) %> |
 	<%= link_to 'Wstecz', offers_path %>
+<% end %>
+</p>
+
+<% unless pracodawca?(@offer.user) %>
+	<%= link_to "Zadaj pytanie", new_offer_contact_path(@offer) %> | 
+	<%= link_to "Wyślij CV", "#" %>
 <% end %>

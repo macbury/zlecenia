@@ -12,3 +12,6 @@ form.formtastic fieldset ol li p.inline-hints { color:#333; }
 form.formtastic fieldset ol li fieldset legend { position: static; }
 form.formtastic fieldset ol li p.inline-hints { clear: both; }
 form.formtastic fieldset ol li label { padding-top: 0.4em; }
+form.formtastic .prices input[type="text"] { width: 50px; text-align: right; }
+form.formtastic p.inline-errors { color:#cc0000; }
+form.formtastic #recaptcha_widget_div { margin-left: 25%; }

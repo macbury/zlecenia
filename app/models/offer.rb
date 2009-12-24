@@ -3,6 +3,8 @@ ETAT_TYPES = ["zlecenie (konkretna usługa do wykonania)", "poszukiwanie współ
 ETAT_LABELS = ["zlecenie", "etat", "wolontariat", "praktyka"]
 class Offer < ActiveRecord::Base
 	has_many :visits, :dependent => :destroy
+	has_many :contacts
+	
 	belongs_to :user
 	belongs_to :place
 	

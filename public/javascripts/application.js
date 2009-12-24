@@ -8,17 +8,6 @@ function flash(type, message) {
 	}, 5000);
 }
 
-function show_errors(form_id, array) {
-	$('#new_achievement .inline-errors').remove();
-	$.each(array, function (input_id, errors) {
-		var error = $('<p>');
-		error.addClass('inline-errors')
-				 .text(errors.join(', '));
-		
-		$('#'+input_id).append(error);
-	});
-}
-
 $(document).ready(function () {
 	// Strona profilu
 	

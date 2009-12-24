@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091223190324) do
+ActiveRecord::Schema.define(:version => 20091223224456) do
 
   create_table "achievements", :force => true do |t|
     t.integer  "type_id",     :default => 0
@@ -72,6 +72,8 @@ ActiveRecord::Schema.define(:version => 20091223190324) do
     t.integer  "etat",         :default => 0
     t.boolean  "zdalnie",      :default => false
     t.integer  "visits_count", :default => 0
+    t.integer  "price_from"
+    t.integer  "price_to"
   end
 
   create_table "places", :force => true do |t|

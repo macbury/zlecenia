@@ -1,0 +1,12 @@
+<h2><%= title [@offer.title, "Kontakt"] %></h2>
+<% semantic_form_for [@offer, @contact] do |f| %>
+	<% f.inputs do %>
+		<%= f.input :body %>
+		<li class="required">
+			<label>Kod:</label>
+			<%= recaptcha_tags %>
+			<%= content_tag :p, @contact.errors.on(:base), :class => "inline-errors" unless @contact.errors.on(:base).nil? %>
+		</li>
+	<% end %>
+	<%= f.submit "Wyślij wiadomość" %>
+<% end %>
